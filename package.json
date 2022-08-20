@@ -1,0 +1,64 @@
+{
+    "name": "languege-adapter",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@chakra-ui/react": "^1.6.7",
+        "@emotion/react": "^11.4.1",
+        "@emotion/styled": "^11.3.0",
+        "@fullcalendar/daygrid": "^5.10.1",
+        "@fullcalendar/interaction": "^5.10.1",
+        "@fullcalendar/react": "^5.10.1",
+        "@fullcalendar/timegrid": "^5.10.1",
+        "@testing-library/jest-dom": "^5.14.1",
+        "@testing-library/react": "^11.2.7",
+        "@testing-library/user-event": "^12.8.3",
+        "axios": "^0.27.2",
+        "cross-env": "^7.0.3",
+        "dompurify": "^2.3.6",
+        "dotenv": "^16.0.1",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.1",
+        "framer-motion": "^4.1.17",
+        "luxon": "^2.3.1",
+        "prettier": "^2.3.2",
+        "react": "^17.0.2",
+        "react-datepicker": "^4.7.0",
+        "react-dom": "^17.0.2",
+        "react-icons": "^4.4.0",
+        "react-loader-spinner": "^4.0.0",
+        "react-redux": "^8.0.2",
+        "react-router-dom": "^6.2.2",
+        "react-scripts": "4.0.3",
+        "redux": "^4.1.2",
+        "redux-devtools-extension": "^2.13.9",
+        "redux-thunk": "^2.4.1",
+        "styled-components": "^5.3.1",
+        "web-vitals": "^1.1.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "cross-env REACT_APP_ENV=production react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
