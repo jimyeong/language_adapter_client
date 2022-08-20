@@ -1,3 +1,5 @@
+import { axiosApi } from '../helper';
+const { privatePostAxios } = axiosApi;
 export const loadingState = {
     idle: 'IDLE',
     error: 'ERROR',
@@ -12,9 +14,15 @@ const initialState = {
     alertDialog: { show: false, message: '' },
     showCalendar: false,
     loading: loadingState.idle,
+    user: null,
 };
 const SystemReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'system/getUser':
+            return {
+                ...state,
+                user: action.payload,
+            };
         case 'system/setAlertDialog':
             return {
                 ...state,
@@ -57,6 +65,28 @@ export const createAlertDialogAction = (flag, message) => {
     return {
         type: 'system/setAlertDialog',
         payload: { show: flag, message },
+    };
+};
+
+export const getUser = async ({ navigate, destination }) => {
+    // destination: {from: "", to:" "}
+    const url = '/v1/oauth/user';
+    const successCallback = () => {
+        console.log('getUser Success');
+    };
+    const errorCallback = () => {
+        console.log('getUser Fail');
+    };
+    const result = await privatePostAxios(
+        url,
+        {},
+        successCallback,
+        errorCallback,
+        { navigate, destination }
+    );
+    console.log(['@@@@@@@@'], result);
+    return (dispatch, getState) => {
+        dispatch({ type: 'system/getUser', payload: result.data });
     };
 };
 

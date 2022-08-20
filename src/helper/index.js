@@ -288,14 +288,15 @@ export const axiosApi = {
         }
         if (status === 'success') {
         }
+        return result;
     },
     privateSuccessRequestCallback: (result, navigation, successCallback) => {
-        axiosApi.privateRequestHandler('success', result, navigation);
         if (successCallback) successCallback(result);
+        return axiosApi.privateRequestHandler('success', result, navigation);
     },
     privateErrorRequestCallback: (result, navigation, errorCallback) => {
-        axiosApi.privateRequestHandler('error', result, navigation);
         if (errorCallback) errorCallback(result);
+        return axiosApi.privateRequestHandler('error', result, navigation);
     },
     privateGetAxios: async (
         url,
@@ -334,14 +335,14 @@ export const axiosApi = {
         return axios
             .post(URI, param, { withCredentials: true })
             .then((result) => {
-                axiosApi.privateSuccessRequestCallback(
+                return axiosApi.privateSuccessRequestCallback(
                     result,
                     { navigate, destination },
                     successCallback
                 );
             })
             .catch((errorResult) => {
-                axiosApi.privateErrorRequestCallback(
+                return axiosApi.privateErrorRequestCallback(
                     errorResult,
                     { navigate, destination },
                     errorCallback

@@ -4,9 +4,13 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import helper from './helper';
-import { useDispatch } from 'react-redux';
-import { createAlertDialogAction } from './reducers/SystemSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAlertDialogAction, getUser } from './reducers/SystemSlice';
+
 import { BaseFloatingButton } from './components/FloatingButtons';
+import LoginContainer from './Main/container/LoginContainer';
+import Footer from './components/Footers/Footer';
+const getSystemSelector = (state) => state.system;
 
 const { clearAllLotationState } = helper;
 
@@ -14,11 +18,29 @@ function App() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const systemState = useSelector(getSystemSelector);
 
     const setSystemAlert = (onOffFlag, message) => {
         return dispatch(createAlertDialogAction(onOffFlag, message));
     };
     const onClickFloatingButton = () => navigate('/quiz');
+    useEffect(() => {
+        const setUser = async () => {
+            dispatch(
+                await getUser({
+                    navigate,
+                    destination: {
+                        from: 'App',
+                        to: '',
+                        label: 'GET_USER_DATA',
+                    },
+                })
+            );
+        };
+        if (!systemState.user) {
+            setUser();
+        }
+    }, []);
 
     useEffect(() => {
         const { state } = location;
@@ -40,15 +62,26 @@ function App() {
         }
         return () => {};
     }, [location.state]);
-    return (
-        <React.Fragment>
-            <GlobalStyle></GlobalStyle>
-            <div className="App" id="body-content">
-                <MainRoutes />
-            </div>
-            <div className="footer"></div>
-        </React.Fragment>
-    );
+    if (!systemState.user) {
+        return (
+            <React.Fragment>
+                <GlobalStyle></GlobalStyle>
+                <LoginContainer />
+            </React.Fragment>
+        );
+    }
+    if (systemState.user) {
+        return (
+            <React.Fragment>
+                <GlobalStyle></GlobalStyle>
+                <div className="App" id="body-content">
+                    <MainRoutes />
+                </div>
+                <Footer user_profile={systemState.user} />
+            </React.Fragment>
+        );
+    }
+    // !systemState.user && navigate('/login');
 }
 function LayoutContainer({ children }) {
     return <div className="pd-1">{children}</div>;

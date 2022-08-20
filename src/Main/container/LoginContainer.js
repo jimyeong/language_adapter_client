@@ -33,7 +33,7 @@ function LoginContainer({ children }) {
     const navigate = useNavigate();
     const loginSuccess = ({ data }) => {};
     const clientId = process.env.REACT_APP_REACT_APP_GOOGLE_OAUTH_KEY;
-    const successCallback = () => navigate('/main');
+    const successCallback = () => navigate('/');
     return (
         <LoginContainerBlock>
             <div className="flx vertical-center horizontal-center">
@@ -44,7 +44,7 @@ function LoginContainer({ children }) {
                         errorCallback={(error) => {
                             console.log('error', error);
                             // alert message(로그인에 실패했습니다.);
-                            navigate('/login');
+                            navigate('/');
                         }}
                         className="btn"
                         clientId={clientId}
