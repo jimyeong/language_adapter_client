@@ -28,8 +28,10 @@ const QuizContainerBlock = styled.div`
         line-height: 36px;
         &.red {
             background-color: #ff4444;
+            background-color: #8513bf;
             &:hover {
-                background-color: #fa7070;
+                // background-color: #fa7070;
+                background-color: ${setColor('#8513bf', 10)};
             }
         }
         &.yellow {

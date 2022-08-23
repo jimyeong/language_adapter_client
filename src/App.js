@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import helper from './helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAlertDialogAction, getUser } from './reducers/SystemSlice';
-
+import { BaseLayoutConfig } from './components/globalUIconfig';
 import { BaseFloatingButton } from './components/FloatingButtons';
 import LoginContainer from './Main/container/LoginContainer';
 import Footer from './components/Footers/Footer';
@@ -73,7 +73,9 @@ function App() {
     if (systemState.user) {
         return (
             <React.Fragment>
-                <GlobalStyle></GlobalStyle>
+                <GlobalStyle
+                    footerHeight={BaseLayoutConfig.footerHeight[1]}
+                ></GlobalStyle>
                 <div className="App" id="body-content">
                     <MainRoutes />
                 </div>

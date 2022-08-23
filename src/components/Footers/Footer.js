@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import { CIRCLEFRAME } from '../Utils';
 
 const FooterBlock = styled.footer`
-    height: 42px;
+    height: 50px;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    background: #e9f3fb;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 1px 1px 2px 5px rgb(0 0 0 / 1%);
     .user__profile {
         position: relative;
     }

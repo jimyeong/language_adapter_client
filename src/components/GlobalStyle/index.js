@@ -87,6 +87,8 @@ const GlobalStyle = createGlobalStyle`
     #root{
         min-height: 100%;
         position: relative;
+        padding-bottom: ${(props) =>
+            props.footerHeight ? props.footerHeight : '72px'};
     }
     .footer{
         position: absolute;

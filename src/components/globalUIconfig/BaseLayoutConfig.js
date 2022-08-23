@@ -4,9 +4,11 @@ const BaseLayoutConfig = {
     mobileSidePadding: 16,
     mobileMinScreenSize: '340px',
     headerHeight: [46, '46px'],
+    footerHeight: [76, '76px'],
     header: {
         backButtonSpace: [86, '86px'],
     },
+
     layout: {
         containerSize: '1130px',
         headerHeight: {

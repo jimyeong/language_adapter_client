@@ -18,6 +18,11 @@ const initialState = {
 };
 const SystemReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'system/logout':
+            return {
+                ...state,
+                user: null,
+            };
         case 'system/getUser':
             return {
                 ...state,

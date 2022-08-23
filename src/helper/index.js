@@ -265,6 +265,11 @@ export const axiosApi = {
             .then(successCall)
             .catch(errorCall);
     },
+    _post: async (url, param) => {
+        const host = process.env.REACT_APP_HOST;
+        const URI = host + url;
+        return await axios.post(URI, param, { withCredentials: true });
+    },
     delete: async (url, navigate, successCall, errorCall) => {
         const host = process.env.REACT_APP_HOST;
         const URI = host + url;
