@@ -4,6 +4,7 @@ import { GoogleLoginButton } from '../../components/Buttons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { axiosApi } from '../../helper';
+import { signIn, signOut } from '../../helper/authenticate';
 const { _post } = axiosApi;
 
 const LoginContainerBlock = styled.div`
@@ -51,6 +52,7 @@ function LoginContainer({ children }) {
     };
     const loginSuccessCallback = async () => {
         const result = dispatch(await getUserThunk());
+        signIn();
         result && console.log(['what is the result'], result);
         navigate('/');
     };
@@ -63,6 +65,7 @@ function LoginContainer({ children }) {
                         successCallback={loginSuccessCallback}
                         errorCallback={(error) => {
                             console.log('error', error);
+                            signOut();
                             // alert message(로그인에 실패했습니다.);
                             navigate('/');
                         }}

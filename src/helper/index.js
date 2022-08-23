@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { NAVIGATION_MODEL } from '../model/constants';
 import { DateTime, Interval } from 'luxon';
+import { signIn, signOut } from '../helper/authenticate';
 axios.defaults.withCredentials = true;
 
 Interval.fromISO();
@@ -270,6 +271,11 @@ export const axiosApi = {
         const URI = host + url;
         return await axios.post(URI, param, { withCredentials: true });
     },
+    _get: async (url) => {
+        const host = process.env.REACT_APP_HOST;
+        const URI = host + url;
+        return await axios.get(URI, { withCredentials: true });
+    },
     delete: async (url, navigate, successCall, errorCall) => {
         const host = process.env.REACT_APP_HOST;
         const URI = host + url;
@@ -278,81 +284,49 @@ export const axiosApi = {
             .then(successCall)
             .catch(errorCall);
     },
-    privateRequestHandler: (status, result, { navigate, destination }) => {
-        console.log(['RESULT'], result);
-        if (status === 'error') {
-            result.response.status == 401 &&
-                navigate('/login', {
-                    state: {
-                        message: NAVIGATION_MODEL.UNAUTHORIZED.message,
-                        flag: NAVIGATION_MODEL.UNAUTHORIZED.flag,
-                        from: destination.from,
-                        to: destination.to || '',
-                    },
-                });
-        }
-        if (status === 'success') {
-        }
-        return result;
-    },
-    privateSuccessRequestCallback: (result, navigation, successCallback) => {
-        if (successCallback) successCallback(result);
-        return axiosApi.privateRequestHandler('success', result, navigation);
-    },
-    privateErrorRequestCallback: (result, navigation, errorCallback) => {
-        if (errorCallback) errorCallback(result);
-        return axiosApi.privateRequestHandler('error', result, navigation);
-    },
-    privateGetAxios: async (
-        url,
-        successCallback,
-        errorCallback,
-        { navigate, destination }
-    ) => {
-        const host = process.env.REACT_APP_HOST;
-        const URI = host + url;
-        return axios
-            .get(URI, { withCredentials: true })
-            .then((result) => {
-                axiosApi.privateSuccessRequestCallback(
-                    result,
-                    { navigate, destination },
-                    successCallback
-                );
-            })
-            .catch((errorResult) => {
-                axiosApi.privateErrorRequestCallback(
-                    errorResult,
-                    { navigate, destination },
-                    errorCallback
-                );
+    responseHandler: (response, { navigate, destination }) => {
+        if (response.status == 401) {
+            signOut();
+            navigate('/login', {
+                state: {
+                    message: NAVIGATION_MODEL.UNAUTHORIZED.message,
+                    flag: NAVIGATION_MODEL.UNAUTHORIZED.flag,
+                    from: destination.from,
+                    to: destination.to || '',
+                },
             });
+        }
+        if (response.status !== 401) {
+            signIn();
+        }
     },
-    privatePostAxios: async (
-        url,
-        param,
-        successCallback,
-        errorCallback,
-        { navigate, destination }
-    ) => {
+    privateGetAxios: async (url, { navigate, destination }) => {
         const host = process.env.REACT_APP_HOST;
-        const URI = host + url;
-        return axios
-            .post(URI, param, { withCredentials: true })
-            .then((result) => {
-                return axiosApi.privateSuccessRequestCallback(
-                    result,
-                    { navigate, destination },
-                    successCallback
-                );
-            })
-            .catch((errorResult) => {
-                return axiosApi.privateErrorRequestCallback(
-                    errorResult,
-                    { navigate, destination },
-                    errorCallback
-                );
-            });
+        let result;
+        try {
+            result = await axiosApi._get(url);
+            axiosApi.responseHandler(result, { navigate, destination });
+            return result;
+        } catch (error) {
+            result = error.response;
+            axiosApi.responseHandler(result, { navigate, destination });
+            console.log(['err'], error);
+            return result;
+        }
+    },
+    privatePostAxios: async (url, param, { navigate, destination }) => {
+        let result;
+        try {
+            result = await axiosApi._post(url, param);
+            axiosApi.responseHandler(result, { navigate, destination });
+            return result;
+        } catch (error) {
+            console.log(['qwhat is this ?@@@@'], error);
+            result = error.response;
+            axiosApi.responseHandler(result, { navigate, destination });
+            console.log(['err'], error);
+            return result;
+        }
     },
 };
 

@@ -1,5 +1,7 @@
 import { axiosApi } from '../helper';
+import { signIn, signOut } from '../helper/authenticate';
 const { privatePostAxios } = axiosApi;
+
 export const loadingState = {
     idle: 'IDLE',
     error: 'ERROR',
@@ -76,23 +78,21 @@ export const createAlertDialogAction = (flag, message) => {
 export const getUser = async ({ navigate, destination }) => {
     // destination: {from: "", to:" "}
     const url = '/v1/oauth/user';
-    const successCallback = () => {
-        console.log('getUser Success');
-    };
-    const errorCallback = () => {
-        console.log('getUser Fail');
-    };
-    const result = await privatePostAxios(
-        url,
-        {},
-        successCallback,
-        errorCallback,
-        { navigate, destination }
-    );
+    const result = await privatePostAxios(url, {}, { navigate, destination });
+    console.log(['2@@@22222 getUser'], result);
+    if (result.status !== 401) {
+        return (dispatch, getState) => {
+            dispatch({ type: 'system/getUser', payload: result.data });
+            signIn();
+        };
+    }
+    if (result.status == 401) {
+        return (dispatch, getState) => {
+            dispatch({ type: 'system/getUser' });
+            signOut();
+        };
+    }
     console.log(['@@@@@@@@'], result);
-    return (dispatch, getState) => {
-        dispatch({ type: 'system/getUser', payload: result.data });
-    };
 };
 
 export default SystemReducer;

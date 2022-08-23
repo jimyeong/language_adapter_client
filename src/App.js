@@ -10,6 +10,7 @@ import { BaseLayoutConfig } from './components/globalUIconfig';
 import { BaseFloatingButton } from './components/FloatingButtons';
 import LoginContainer from './Main/container/LoginContainer';
 import Footer from './components/Footers/Footer';
+import { getLoginStatus } from './helper/authenticate';
 const getSystemSelector = (state) => state.system;
 
 const { clearAllLotationState } = helper;
@@ -37,9 +38,8 @@ function App() {
                 })
             );
         };
-        if (!systemState.user) {
-            setUser();
-        }
+        setUser();
+        return () => {};
     }, []);
 
     useEffect(() => {
@@ -62,7 +62,8 @@ function App() {
         }
         return () => {};
     }, [location.state]);
-    if (!systemState.user) {
+    console.log(['@@@@@LOGIN???'], getLoginStatus());
+    if (getLoginStatus() === '1') {
         return (
             <React.Fragment>
                 <GlobalStyle></GlobalStyle>
@@ -70,7 +71,8 @@ function App() {
             </React.Fragment>
         );
     }
-    if (systemState.user) {
+    if (getLoginStatus() === '1') {
+        console.log(['@@systemState.user'], systemState.user);
         return (
             <React.Fragment>
                 <GlobalStyle
@@ -80,6 +82,13 @@ function App() {
                     <MainRoutes />
                 </div>
                 <Footer user_profile={systemState.user} />
+            </React.Fragment>
+        );
+    } else {
+        return (
+            <React.Fragment>
+                <GlobalStyle></GlobalStyle>
+                <LoginContainer />
             </React.Fragment>
         );
     }
