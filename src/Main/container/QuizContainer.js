@@ -10,6 +10,8 @@ import { BaseFloatingButton } from '../../components/FloatingButtons';
 import { setSizeableIcon, CalandarIcon } from '../../components/Icons';
 
 import helper, { axiosApi } from '../../helper';
+import { varifyResponse } from '../../helper/authenticate';
+
 const { setColor } = helper;
 const { privatePostAxios, privateGetAxios } = axiosApi;
 
@@ -78,9 +80,9 @@ const QuizContainer = ({ children, ...rest }) => {
     });
 
     const onClickFloatingButton = () => {
-        navigate('/main');
+        navigate('/dashboard');
     };
-    const callApi = () => {
+    const callApi = async () => {
         setLoading(true);
         const requestURL = `/v1/quiz`;
         const params = {};
@@ -113,10 +115,37 @@ const QuizContainer = ({ children, ...rest }) => {
         };
 
         // getQuizApi(requestURL, params, successCallback, errorCallback);
-        privatePostAxios(requestURL, {}, successCallback, errorCallback, {
-            navigate,
-            destination: { from: '/quizContainer', to: '' },
-        });
+        const result = await privatePostAxios(
+            requestURL,
+            {},
+            {
+                navigate,
+                destination: { from: '/quizContainer', to: '' },
+            }
+        );
+        if (varifyResponse(result)) {
+            const pred = 1209600000 + 86400000;
+            const today = new Date().getTime();
+            let recent_arr = [];
+
+            // 2주치 데이터만 추려서 퀴즈로 보여준다.
+            const getRecentsData = (arr) => {
+                arr.map((item) => {
+                    const created_at = new Date(item.created_at).getTime();
+                    console.log('today: ', today);
+                    console.log('created_at: ', created_at);
+                    if (today - created_at <= pred) {
+                        recent_arr.push(item);
+                    }
+                });
+                return recent_arr;
+            };
+            setContainerState({
+                ...containerState,
+                quizes: result.data,
+            });
+            setLoading(false);
+        }
     };
     useEffect(() => {
         callApi();

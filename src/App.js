@@ -5,12 +5,17 @@ import { Routes, Route } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import helper from './helper';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAlertDialogAction, getUser } from './reducers/SystemSlice';
+import {
+    createAlertDialogAction,
+    getUser,
+    loadingState,
+} from './reducers/SystemSlice';
 import { BaseLayoutConfig } from './components/globalUIconfig';
 import { BaseFloatingButton } from './components/FloatingButtons';
 import LoginContainer from './Main/container/LoginContainer';
 import Footer from './components/Footers/Footer';
 import { getLoginStatus } from './helper/authenticate';
+import LoadingSpinner from './components/LoadingSpinner';
 const getSystemSelector = (state) => state.system;
 
 const { clearAllLotationState } = helper;
@@ -27,6 +32,7 @@ function App() {
     const onClickFloatingButton = () => navigate('/quiz');
     useEffect(() => {
         const setUser = async () => {
+            dispatch({ type: 'system/loading', payload: loadingState.loading });
             dispatch(
                 await getUser({
                     navigate,
@@ -37,6 +43,7 @@ function App() {
                     },
                 })
             );
+            dispatch({ type: 'system/loading', payload: loadingState.idle });
         };
         setUser();
         return () => {};
@@ -62,17 +69,10 @@ function App() {
         }
         return () => {};
     }, [location.state]);
-    console.log(['@@@@@LOGIN???'], getLoginStatus());
-    if (getLoginStatus() === '1') {
-        return (
-            <React.Fragment>
-                <GlobalStyle></GlobalStyle>
-                <LoginContainer />
-            </React.Fragment>
-        );
+    if (systemState.loading == loadingState.loading) {
+        return <LoadingSpinner />;
     }
-    if (getLoginStatus() === '1') {
-        console.log(['@@systemState.user'], systemState.user);
+    if (systemState.loading == loadingState.idle) {
         return (
             <React.Fragment>
                 <GlobalStyle
@@ -81,14 +81,6 @@ function App() {
                 <div className="App" id="body-content">
                     <MainRoutes />
                 </div>
-                <Footer user_profile={systemState.user} />
-            </React.Fragment>
-        );
-    } else {
-        return (
-            <React.Fragment>
-                <GlobalStyle></GlobalStyle>
-                <LoginContainer />
             </React.Fragment>
         );
     }

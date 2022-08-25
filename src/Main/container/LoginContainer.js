@@ -52,9 +52,8 @@ function LoginContainer({ children }) {
     };
     const loginSuccessCallback = async () => {
         const result = dispatch(await getUserThunk());
-        signIn();
         result && console.log(['what is the result'], result);
-        navigate('/');
+        navigate('/dashboard');
     };
     return (
         <LoginContainerBlock>
@@ -65,7 +64,6 @@ function LoginContainer({ children }) {
                         successCallback={loginSuccessCallback}
                         errorCallback={(error) => {
                             console.log('error', error);
-                            signOut();
                             // alert message(로그인에 실패했습니다.);
                             navigate('/');
                         }}

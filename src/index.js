@@ -6,10 +6,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
+import AddWordContainer from './Main/container/Details/AddWordContainer';
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Provider store={store}>
+                <AddWordContainer />
                 <App />
             </Provider>
         </Router>

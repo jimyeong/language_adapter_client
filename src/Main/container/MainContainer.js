@@ -17,6 +17,7 @@ import { ConfirmSlidingDialog } from '../../components/Dialogs';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { TiPencil } from 'react-icons/ti';
+import { varifyResponse } from '../../helper/authenticate';
 
 // BsPlusCircleFill
 import { getRegisteredWords } from '../api';
@@ -67,7 +68,7 @@ const MainContainer = ({ children, ...rest }) => {
     const params = {
         user_id: 1,
         path: `/v1/words`,
-        request_from: '/main',
+        request_from: '/dashboard',
     };
     const onClickFloatingButton = () => {
         navigate('/quiz');
@@ -80,19 +81,22 @@ const MainContainer = ({ children, ...rest }) => {
             setErrors(error);
             setLoading(false);
         };
-        const successCallback = (result) => {
-            // dispatch(setExpressions(result.data));
+        const result = await privatePostAxios(
+            url,
+            {},
+            {
+                navigate,
+                destination: { from: '/dashboard', to: '' },
+            }
+        );
 
+        if (varifyResponse(result)) {
             setPageState({
                 ...pageState,
                 events: processEventData(result.data),
             });
             setLoading(false);
-        };
-        privatePostAxios(url, {}, successCallback, errorCallback, {
-            navigate,
-            destination: { from: '/main', to: '' },
-        });
+        }
     };
     const processEventData = (list) => {
         return list.map((item, index) => {

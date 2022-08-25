@@ -5,7 +5,7 @@ const { privatePostAxios } = axiosApi;
 export const loadingState = {
     idle: 'IDLE',
     error: 'ERROR',
-    loading: 'FAIL',
+    loading: 'LOADING',
     success: 'SUCCESS',
     unclear: 'UNCLEAR',
 };
@@ -20,6 +20,11 @@ const initialState = {
 };
 const SystemReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'system/loading':
+            return {
+                ...state,
+                loading: action.payload,
+            };
         case 'system/logout':
             return {
                 ...state,
@@ -82,6 +87,7 @@ export const getUser = async ({ navigate, destination }) => {
     console.log(['2@@@22222 getUser'], result);
     if (result.status !== 401) {
         return (dispatch, getState) => {
+            console.log('I am expecting you to execute');
             dispatch({ type: 'system/getUser', payload: result.data });
             signIn();
         };

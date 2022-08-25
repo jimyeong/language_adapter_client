@@ -10,5 +10,11 @@ const signOut = () => {
 const getLoginStatus = () => {
     return sessionStorage.getItem(LOGIN_SCHEME.IS_LOGIN);
 };
+const varifyResponse = (response) => {
+    if (response.status == 401) {
+        return false;
+    }
+    return true;
+};
 
-export { signOut, signIn, getLoginStatus };
+export { signOut, signIn, getLoginStatus, varifyResponse };

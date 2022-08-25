@@ -286,7 +286,6 @@ export const axiosApi = {
     },
     responseHandler: (response, { navigate, destination }) => {
         if (response.status == 401) {
-            signOut();
             navigate('/login', {
                 state: {
                     message: NAVIGATION_MODEL.UNAUTHORIZED.message,
@@ -297,7 +296,6 @@ export const axiosApi = {
             });
         }
         if (response.status !== 401) {
-            signIn();
         }
     },
     privateGetAxios: async (url, { navigate, destination }) => {
