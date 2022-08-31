@@ -78,7 +78,15 @@ function UsecaseContainer({ usecases, length }) {
                             labelingName="selected image"
                             uiType="col"
                         >
-                            <img src={selectedImage} alt="selected image" />
+                            <div
+                                style={{
+                                    border: '4px solid #1c101d',
+                                    borderRadius: '8px',
+                                }}
+                                className="border__frame"
+                            >
+                                <img src={selectedImage} alt="selected image" />
+                            </div>
                         </Forms.LabelingBox>
                     )}
                 </UsecaseCard>
