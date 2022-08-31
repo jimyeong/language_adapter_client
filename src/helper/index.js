@@ -2,6 +2,7 @@ import axios from 'axios';
 import { NAVIGATION_MODEL } from '../model/constants';
 import { DateTime, Interval } from 'luxon';
 import { signIn, signOut } from '../helper/authenticate';
+import _ from 'lodash';
 axios.defaults.withCredentials = true;
 
 Interval.fromISO();
@@ -243,6 +244,9 @@ const helper = {
     },
     clearAllLotationState: () => {
         window.history.replaceState({}, document.title);
+    },
+    debouncer: (func, timeInMs) => {
+        return _.debounce(func, timeInMs);
     },
 };
 

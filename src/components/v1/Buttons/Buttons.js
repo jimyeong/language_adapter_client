@@ -32,14 +32,42 @@ const CircleButton = styled.button`
                 : BaseLayoutConfig.primaryColor,
         })}
 `;
-const IconCircleButton = ({ icon, size, backgroundColor, children }) => {
+const RoundedBoxButton = styled.button`
+    height: 38px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    color: ${(props) => props.fontColor};
+    background-color: ${(props) => props.backgroundColor};
+    font-size: ${(props) => `${props.fontSize}px`};
+    ${(props) =>
+        normalizeButton({
+            backgroundColor: props.backgroundColor
+                ? props.backgroundColor
+                : BaseLayoutConfig.primaryColor,
+        })};
+`;
+
+const IconCircleButton = ({
+    icon,
+    size,
+    backgroundColor,
+    children,
+    onClick,
+    ...rest
+}) => {
     return (
-        <CircleButton size={size} backgroundColor={backgroundColor}>
+        <CircleButton
+            size={size}
+            backgroundColor={backgroundColor}
+            onClick={onClick}
+            {...rest}
+        >
             {children}
         </CircleButton>
     );
 };
 Buttons.CircleButton = CircleButton;
 Buttons.IconCircleButton = IconCircleButton;
+Buttons.RoundedBoxButton = RoundedBoxButton;
 
 export default Buttons;

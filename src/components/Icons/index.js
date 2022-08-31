@@ -41,7 +41,7 @@ import {
 import { BsPencilSquare, BsInfoCircle } from 'react-icons/bs';
 import { FiAlertOctagon } from 'react-icons/fi';
 import { GoCheck } from 'react-icons/go';
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaSearch } from 'react-icons/fa';
 import { BiTrash, BiEdit } from 'react-icons/bi';
 
 import helper from '../../helper';
@@ -388,6 +388,13 @@ export const ExportIcon = styled(_Export)`
 `;
 
 export const PencilIcon = styled(AiOutlineEdit)`
+    stroke: ${(props) =>
+        props.stroke ? props.stroke : BaseLayoutConfig.primaryColor};
+    fill: ${(props) =>
+        props.fill ? props.fill : BaseLayoutConfig.primaryColor};
+`;
+
+export const IconSearch = styled(FaSearch)`
     stroke: ${(props) =>
         props.stroke ? props.stroke : BaseLayoutConfig.primaryColor};
     fill: ${(props) =>

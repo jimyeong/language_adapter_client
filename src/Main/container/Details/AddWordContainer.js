@@ -1,13 +1,31 @@
 import { TextInput } from '../../../components/Forms';
 
-import React from 'react';
+import React, {
+    useEffect,
+    useRef,
+    useState,
+    useCallback,
+    useContext,
+} from 'react';
 import styled from 'styled-components';
-import UsecaseCard from '../../view/Usecases/UsecaseCard';
-import { LabelingTextInput } from '../../../components/Forms';
-import { Buttons, AlignBox } from '../../../components';
+import { GiphyFetch } from '@giphy/js-fetch-api';
+import helper from '../../../helper';
+import UsecaseContainer from '../UsecaseContainer';
 
+import Colours from '../../../components/Colours';
+import { BaseLayoutConfig } from '../../../components/globalUIconfig';
+import { AlignBox, Buttons, Forms } from '../../../components';
+
+const { debouncer } = helper;
 const AddWordContainerBlock = styled.div`
     padding: 0 16px;
+`;
+const MeaningCard = styled.div`
+    border-radius: 8px;
+    padding: ${(props) => `${BaseLayoutConfig.mobileSidePadding}px`};
+    padding-bottom: ${(props) =>
+        ` ${2 * BaseLayoutConfig.mobileSidePadding}px`};
+    background-color: #f1fff9;
 `;
 
 /**
@@ -33,51 +51,39 @@ const AddWordContainerBlock = styled.div`
 }
  */
 function AddWordContainer({ children }) {
+    const [usecases, setUsecases] = useState([]);
+    const onClickHandlerAddUseCases = (e) => {
+        setUsecases([...usecases, {}]);
+    };
+
     return (
         <AddWordContainerBlock>
-            <UsecaseCard index={1}>
+            <MeaningCard>
                 <AlignBox.Right>
-                    <Buttons.IconCircleButton size={50}>
-                        <div>image</div>
-                    </Buttons.IconCircleButton>
+                    <Buttons.RoundedBoxButton
+                        onClick={onClickHandlerAddUseCases}
+                        fontSize={16}
+                        backgroundColor="#abffe9"
+                    >
+                        Add more usecases
+                    </Buttons.RoundedBoxButton>
                 </AlignBox.Right>
-                <LabelingTextInput
+                <br />
+                <Forms.LabelingTextInput
                     uiType="col"
-                    placeholder="definition in en"
-                    name="df_en"
-                    labelingName="definition in aa"
+                    placeholder="explanation_en"
+                    name="ex_en"
+                    labelingName="explanation in en"
                 />
-                <LabelingTextInput
+                <Forms.LabelingTextInput
                     uiType="col"
-                    placeholder="definition in your language"
-                    name="df_native"
-                    labelingName="definition in native"
+                    placeholder="explanation_mt"
+                    name="ex_mt"
+                    labelingName="explanation in mother tongue"
                 />
-                <div>
-                    <span className="label__input">key phrase</span>
-                    <TextInput type="basic" placeholder="key phrase" />
-                </div>
-                <p>image thing</p>
-            </UsecaseCard>
-            <UsecaseCard index={2}>
-                <LabelingTextInput
-                    uiType="col"
-                    placeholder="definition in en"
-                    name="df_en"
-                    labelingName="definition in aa"
-                />
-                <LabelingTextInput
-                    uiType="col"
-                    placeholder="definition in your language"
-                    name="df_native"
-                    labelingName="definition in native"
-                />
-                <div>
-                    <span className="label__input">key phrase</span>
-                    <TextInput type="basic" placeholder="key phrase" />
-                </div>
-                <p>image thing</p>
-            </UsecaseCard>
+                <br />
+                <UsecaseContainer usecases={usecases} />
+            </MeaningCard>
         </AddWordContainerBlock>
     );
 }

@@ -10,6 +10,9 @@ const UsecaseCardBlock = styled.div`
     background-color: #fff;
     box-shadow: 1px -2px 10px 10px rgba(0, 0, 0, 0.06);
     border-radius: 8px;
+    .giphy-gif {
+        cursor: pointer;
+    }
 `;
 
 function UsecaseCard({ children }) {

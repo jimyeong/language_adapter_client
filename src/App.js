@@ -1,6 +1,6 @@
 import { MainContainer, MainRoutes } from './Main';
 import GlobalStyle from './components/GlobalStyle';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import helper from './helper';
@@ -16,6 +16,7 @@ import LoginContainer from './Main/container/LoginContainer';
 import Footer from './components/Footers/Footer';
 import { getLoginStatus } from './helper/authenticate';
 import LoadingSpinner from './components/LoadingSpinner';
+import ProductsQuizContainer from './ProductsQuizContainer';
 const getSystemSelector = (state) => state.system;
 
 const { clearAllLotationState } = helper;

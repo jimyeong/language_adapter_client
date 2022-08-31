@@ -2,6 +2,7 @@ import TextInput from './TextInput';
 
 import React from 'react';
 import styled from 'styled-components';
+import LabelingBox from './LabelingBox';
 
 const LabelingTextInputBlock = styled.div`
     ${(props) => props.uiType == 'row' && labeling_row()}
@@ -35,8 +36,7 @@ function LabelingTextInput({
     onChange,
 }) {
     return (
-        <LabelingTextInputBlock uiType={uiType}>
-            <span className="textinput__label">{labelingName}</span>
+        <LabelingBox uiType={uiType} labelingName={labelingName}>
             <TextInput
                 className="text__input"
                 name={name}
@@ -44,7 +44,7 @@ function LabelingTextInput({
                 placeholder={placeholder}
                 onChange={onChange}
             />
-        </LabelingTextInputBlock>
+        </LabelingBox>
     );
 }
 

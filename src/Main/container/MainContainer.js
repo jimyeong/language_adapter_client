@@ -28,8 +28,6 @@ import { axiosApi } from '../../helper';
 import MeaningCard from '../view/Meaning/MeaningCard';
 const { get, post, privatePostAxios } = axiosApi;
 
-const clientId =
-    '1079878285444-g7ga6mkumcv5qmr6bil3tp8h3kqtnhf5.apps.googleusercontent.com';
 const { findRenderList, splitDateFormatWithSpace } = calendarUtils;
 const { dateBasicFormatter, setColor } = helper;
 const MainContainerBlock = styled.div`
@@ -89,7 +87,6 @@ const MainContainer = ({ children, ...rest }) => {
                 destination: { from: '/dashboard', to: '' },
             }
         );
-
         if (varifyResponse(result)) {
             setPageState({
                 ...pageState,
@@ -128,7 +125,6 @@ const MainContainer = ({ children, ...rest }) => {
         setDeleteDialogShow({ flag: true, id: deleteId });
     };
     const deleteWordApiCall = (deleteId) => {
-        console.log(['clikckedItem####'], deleteId);
         const url = `/v1/words/delete/${deleteId}`;
         const errorCallback = (error) => {
             console.log(['error'], error);
