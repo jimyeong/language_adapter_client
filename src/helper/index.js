@@ -248,6 +248,9 @@ const helper = {
     debouncer: (func, timeInMs) => {
         return _.debounce(func, timeInMs);
     },
+    createRandomId: () => {
+        return Math.random().toString(36).substring(2, 11);
+    },
 };
 
 // reference https://emailregex.com/

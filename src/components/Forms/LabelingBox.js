@@ -2,9 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import TextInput from './TextInput';
 
+const labeling_rowbtn = () => {
+    return `
+    ${labeling_row()}
+    & {
+        padding-right: 80px;
+    }
+    `;
+};
 const labeling_col = () => {};
 const labeling_row = () => {
     return `
+    & + & {
+        margin-top: 8px;
+    }
     & {
         position: relative;
         padding-left: 80px;

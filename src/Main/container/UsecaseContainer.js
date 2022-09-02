@@ -4,7 +4,7 @@ import Forms from '../../components/Forms';
 
 // import UsecaseCard from '../../view/Usecases/UsecaseCard';
 import UsecaseCard from '../view/Usecases/UsecaseCard';
-import { Buttons, AlignBox } from '../../components';
+import { Buttons, AlignBox, Chips } from '../../components';
 import { Carousel } from '@giphy/react-components';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 

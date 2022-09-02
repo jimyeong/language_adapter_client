@@ -22,6 +22,9 @@ const normalizeButton = ({ backgroundColor }) => {
 const Buttons = {};
 const ButtonsBlock = styled.div``;
 const CircleButton = styled.button`
+    & + & {
+        margin-left: 8px;
+    }
     width: ${(props) => `${props.size ? props.size : 30}px`};
     height: ${(props) => `${props.size ? props.size : 30}px`};
     border-radius: 50%;

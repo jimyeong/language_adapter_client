@@ -144,4 +144,14 @@ stomp up
 stomp down
 stomp over
 stomp off
-영어는 이런식으로 의미가 확장되면서 사용되는 특징 때문에, 한국말 뜻을 달면 공부가 제대로 안됨
+영어는 이런식으로 의미가 확장되면서 사용되는 특징 때문에, 한국말 뜻을 달면 공부가 제대로 안됨,
+think in english
+if that's hard use images
+
+31.08.22
+labeling 박스를 어떻게
+to create my own source that will reduce my time later, you should write down more, and manage the designs of components.
+
+story book
+componet page 를 만들어야 겠다.
+I
