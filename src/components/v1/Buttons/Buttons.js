@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import helper from '../../../helper';
 import { BaseLayoutConfig } from '../../globalUIconfig';
@@ -69,8 +69,12 @@ const IconCircleButton = ({
         </CircleButton>
     );
 };
-Buttons.CircleButton = CircleButton;
-Buttons.IconCircleButton = IconCircleButton;
-Buttons.RoundedBoxButton = RoundedBoxButton;
+Buttons.CircleButton = memo(CircleButton);
+Buttons.IconCircleButton = memo(IconCircleButton);
+Buttons.RoundedBoxButton = memo(RoundedBoxButton);
+const utils = {
+    normalizeButton,
+};
+Buttons.utils = utils;
 
 export default Buttons;

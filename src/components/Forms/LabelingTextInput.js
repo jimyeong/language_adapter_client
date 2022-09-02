@@ -8,7 +8,7 @@ function LabelingTextInput({
     children,
     labelingName,
     name,
-    text,
+    value,
     placeholder,
     uiType,
     onChange,
@@ -19,7 +19,7 @@ function LabelingTextInput({
             <TextInput
                 className="text__input"
                 name={name}
-                text={text}
+                value={value}
                 placeholder={placeholder}
                 onChange={onChange}
             />

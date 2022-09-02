@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
 const initializeButtonAlign = () => {
@@ -24,7 +24,7 @@ const GoLeft = styled.div`
 `;
 const AlignBox = {};
 
-AlignBox.Right = ({ children, alignType }) => {
+AlignBox.Right = React.memo(({ children, alignType }) => {
     return (
         <AlignBoxBlock className="clearfix">
             {React.Children.map(children, (child, index) => {
@@ -32,8 +32,8 @@ AlignBox.Right = ({ children, alignType }) => {
             })}
         </AlignBoxBlock>
     );
-};
-AlignBox.LeftRight = ({ alignSide, alignType, children }) => {
+});
+AlignBox.LeftRight = React.memo(({ alignSide, alignType, children }) => {
     return (
         <AlignBoxBlock className="clearfix">
             {alignSide == 'right' &&
@@ -46,6 +46,6 @@ AlignBox.LeftRight = ({ alignSide, alignType, children }) => {
                 })}
         </AlignBoxBlock>
     );
-};
+});
 
 export default AlignBox;

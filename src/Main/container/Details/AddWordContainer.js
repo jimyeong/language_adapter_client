@@ -15,17 +15,11 @@ import Colours from '../../../components/Colours';
 import { BaseLayoutConfig } from '../../../components/globalUIconfig';
 import { AlignBox, Buttons, Forms, Chips } from '../../../components';
 import useInputs from '../../../helper/useInputs';
+import MeaningView from '../../../Meaning';
 
 const { createRandomId } = helper;
 const AddWordContainerBlock = styled.div`
     padding: 0 16px;
-`;
-const MeaningCard = styled.div`
-    border-radius: 8px;
-    padding: ${(props) => `${BaseLayoutConfig.mobileSidePadding}px`};
-    padding-bottom: ${(props) =>
-        ` ${2 * BaseLayoutConfig.mobileSidePadding}px`};
-    background-color: #f1fff9;
 `;
 
 /**
@@ -54,10 +48,10 @@ function AddWordContainer({ children }) {
     let usecaseId = useRef(0);
     // synonyms
     const [synonyms, setSynonyms] = useState([]);
-    const addSynonyms = () => {
+    const addSynonyms = useCallback(() => {
         const id = createRandomId();
         setSynonyms([...synonyms, { id, text: '' }]);
-    };
+    }, [synonyms]);
 
     const meaningModel = {
         explanation_en: 'explanation_en',
@@ -69,16 +63,42 @@ function AddWordContainer({ children }) {
         [meaningModel.explanation_mt]: '',
     });
 
-    const [usecases, setUsecases] = useState(meaningModel.usecases);
-    const onClickHandlerAddUseCases = (e) => {
-        setUsecases([...usecases, { id: usecaseId.current }]);
-        usecaseId.current += 1;
-    };
+    const [usecases, setUsecases] = useState([]);
+    const onClickHandlerAddUseCases = useCallback(
+        (e) => {
+            setUsecases([
+                ...usecases,
+                {
+                    id: usecaseId.current,
+                    searchTerm: '',
+                    selectedImage: '',
+                    definitionInEn: '',
+                    definitionInMt: '',
+                    keyphrase: '',
+                },
+            ]);
+            usecaseId.current += 1;
+        },
+        [usecases]
+    );
+    const onChangeUsecase = useCallback((newList) => {
+        setUsecases(newList);
+    }, []);
+    const onClickDeleteUsecase = useCallback(
+        (id) => {
+            console.log(
+                '@@@result',
+                usecases.filter((item) => item.id !== id)
+            );
+            setUsecases(usecases.filter((item) => item.id !== id));
+        },
+        [usecases]
+    );
+    console.log('data: ', { ..._inputValues, usecases });
 
-    console.log(_inputValues);
     return (
         <AddWordContainerBlock>
-            <MeaningCard>
+            <MeaningView.AddCard>
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
                         onClick={onClickHandlerAddUseCases}
@@ -104,7 +124,16 @@ function AddWordContainer({ children }) {
                     onChange={onChangeInputs}
                 />
                 <br />
-                <UsecaseContainer usecases={usecases} />
+                {usecases.length > 0 &&
+                    usecases.map((usecase, key) => (
+                        <UsecaseContainer
+                            key={key}
+                            list={usecases}
+                            item={usecase}
+                            onChangeUsecase={onChangeUsecase}
+                            onClickDeleteUsecase={onClickDeleteUsecase}
+                        />
+                    ))}
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
                         onClick={addSynonyms}
@@ -124,7 +153,6 @@ function AddWordContainer({ children }) {
                         key={key}
                     />
                 ))}
-
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
                         onClick={() => {}}
@@ -143,7 +171,7 @@ function AddWordContainer({ children }) {
                         Add categories
                     </Buttons.RoundedBoxButton>
                 </AlignBox.Right>
-            </MeaningCard>
+            </MeaningView.AddCard>
         </AddWordContainerBlock>
     );
 }

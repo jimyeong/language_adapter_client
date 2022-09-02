@@ -25,7 +25,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 
 import helper from '../../helper';
 import { axiosApi } from '../../helper';
-import MeaningCard from '../view/Meaning/MeaningCard';
+import MeaningView from '../../Meaning';
 const { get, post, privatePostAxios } = axiosApi;
 
 const { findRenderList, splitDateFormatWithSpace } = calendarUtils;
@@ -161,7 +161,7 @@ const MainContainer = ({ children, ...rest }) => {
                             pageState.selectedDate.dateStr
                         ).map((itemIndex, index) => {
                             return (
-                                <MeaningCard
+                                <MeaningView.Card
                                     key={index}
                                     english_word={pageState.events[itemIndex]}
                                 >
@@ -182,7 +182,7 @@ const MainContainer = ({ children, ...rest }) => {
                                     >
                                         <BiEdit />
                                     </button>
-                                </MeaningCard>
+                                </MeaningView.Card>
                             );
                         })}
                     {!pageState.selectedDate && (
