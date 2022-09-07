@@ -155,3 +155,10 @@ to create my own source that will reduce my time later, you should write down mo
 story book
 componet page 를 만들어야 겠다.
 I
+
+좋은 복습 방법이 떠올랐다.
+달별로 시험 보기 프로세스를 추가한다.
+채점을 한 후에 틀린 문제는,
+추가한다.
+
+그리고 복습에 추가해서 나오게 하도록 한다.

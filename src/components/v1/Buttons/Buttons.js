@@ -22,6 +22,9 @@ const normalizeButton = ({ backgroundColor }) => {
 const Buttons = {};
 const ButtonsBlock = styled.div``;
 const CircleButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     & + & {
         margin-left: 8px;
     }
@@ -34,6 +37,8 @@ const CircleButton = styled.button`
                 ? props.backgroundColor
                 : BaseLayoutConfig.primaryColor,
         })}
+
+    ${(props) => props.customStyle && props.customStyle}
 `;
 const RoundedBoxButton = styled.button`
     height: 38px;
@@ -56,10 +61,12 @@ const IconCircleButton = ({
     backgroundColor,
     children,
     onClick,
+    customStyle,
     ...rest
 }) => {
     return (
         <CircleButton
+            customStyle={customStyle}
             size={size}
             backgroundColor={backgroundColor}
             onClick={onClick}

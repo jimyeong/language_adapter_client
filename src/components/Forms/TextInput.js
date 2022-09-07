@@ -22,9 +22,10 @@ const basicStyle = () => {
         font-size: 18px;
         width: 100%;
         background:#f1f1f1;
+        background-color:white;
+        border: 2px solid #838383;
         &:focus {
             outline: none;
-            border: none;
         }
     `;
 };

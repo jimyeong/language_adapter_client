@@ -2,14 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import TextInput from './TextInput';
 
-const labeling_rowbtn = () => {
-    return `
-    ${labeling_row()}
-    & {
-        padding-right: 80px;
-    }
-    `;
-};
 const labeling_col = () => {};
 const labeling_row = () => {
     return `
@@ -29,9 +21,27 @@ const labeling_row = () => {
         color: #777;
     }`;
 };
+const labeling_button = () => {
+    return `
+        ${labeling_row()}
+        & {
+            position: relative;
+            padding-left: 80px;
+            padding-right: 40px;
+        }
+        > button{
+            position: absolute;
+            right: 0;
+            top:50%;
+            transform: translate(0, -50%);
+        }
+    
+    `;
+};
 const LabelingBoxBlock = styled.div`
     ${(props) => props.uiType == 'row' && labeling_row()}
-    ${(props) => props.uiType !== 'row' && labeling_col()}
+    ${(props) => props.uiType == 'col' && labeling_col()}
+    ${(props) => props.uiType == 'buttonlabel' && labeling_button()}
 `;
 
 function LabelingBox({ children, labelingName, uiType }) {

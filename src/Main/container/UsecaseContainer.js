@@ -67,7 +67,7 @@ function UsecaseContainer({
     useEffect(() => {
         gf = new GiphyFetch(process.env.REACT_APP_GIPHY_KEY);
         return () => {};
-    }, [gf.current]);
+    }, [gf.current, searchTerm]);
 
     return (
         <UsecaseCard>
@@ -114,6 +114,7 @@ function UsecaseContainer({
                     }}
                     Button={Buttons.IconCircleButton}
                 />
+                <br />
                 {searchTerm !== '' && (
                     <Carousel
                         key={searchTerm}

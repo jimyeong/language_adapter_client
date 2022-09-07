@@ -18,12 +18,14 @@ import { ReactComponent as _CandyVector } from '../../assets/svgs/CandyVector.sv
 import { ReactComponent as _CalandarVector } from '../../assets/svgs/CalandarVector.svg';
 import { ReactComponent as _Arrow } from '../../assets/svgs/Arrow.svg';
 import { ReactComponent as _Circle } from '../../assets/svgs/Circle.svg';
-import { ReactComponent as _PlusIcon } from '../../assets/svgs/Plus.svg';
+
 import { ReactComponent as _TrashCanVector } from '../../assets/svgs/TrashCanVector.svg';
 import { ReactComponent as _HeartCart } from '../../assets/svgs/HeartCart.svg';
 import { ReactComponent as _Export } from '../../assets/svgs/Export.svg';
+
 import { BaseLayoutConfig } from '../../components/globalUIconfig';
-import { HiOutlinePencilAlt } from 'react-icons/ai';
+import { HiOutlinePencilAlt, AiOutlinePlusCircle } from 'react-icons/ai';
+import { ImCancelCircle } from 'react-icons/im';
 /* 
 import { ReactComponent as _CharacterButtonTypeScholar } from '../../assets/svgs/CharacterButtonTypeScholar.svg';
 import { ReactComponent as _CharacterButtonTypeLoan } from '../../assets/svgs/CharacterButtonTypeLoan.svg';
@@ -351,15 +353,6 @@ export const CircleIcon = styled(_Circle)`
     fill: ${(props) =>
         props.fill ? props.fill : BaseLayoutConfig.primaryColor};
 `;
-export const PlusIcon = styled(_PlusIcon)`
-    stroke: ${(props) =>
-        props.stroke ? props.stroke : BaseLayoutConfig.primaryColor};
-    fill: ${(props) =>
-        props.fill ? props.fill : BaseLayoutConfig.primaryColor};
-    &:active {
-        fill: ${(props) => setColor(props.fill, 20)};
-    }
-`;
 export const TrashCanIcon = styled(_TrashCanVector)`
     stroke: ${(props) =>
         props.stroke ? props.stroke : BaseLayoutConfig.primaryColor};
@@ -392,6 +385,29 @@ export const PencilIcon = styled(AiOutlineEdit)`
         props.stroke ? props.stroke : BaseLayoutConfig.primaryColor};
     fill: ${(props) =>
         props.fill ? props.fill : BaseLayoutConfig.primaryColor};
+`;
+
+const initIcon = (props) => {
+    return `
+        stroke: ${props.stroke ? props.stroke : BaseLayoutConfig.primaryColor}};
+        fill: ${props.fill ? props.fill : BaseLayoutConfig.primaryColor};
+        &:active {
+            fill: ${setColor(
+                props.fill ? props.fill : BaseLayoutConfig.primaryColor,
+                20
+            )};
+            stroke: ${setColor(
+                props.stroke ? props.stroke : BaseLayoutConfig.primaryColor,
+                20
+            )};
+        }
+    `;
+};
+export const PlusIcon = styled(AiOutlinePlusCircle)`
+    ${(props) => initIcon(props)}
+`;
+export const CancelIcon = styled(ImCancelCircle)`
+    ${(props) => initIcon(props)}
 `;
 
 export const IconSearch = styled(FaSearch)`

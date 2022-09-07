@@ -16,6 +16,7 @@ import { BaseLayoutConfig } from '../../../components/globalUIconfig';
 import { AlignBox, Buttons, Forms, Chips } from '../../../components';
 import useInputs from '../../../helper/useInputs';
 import MeaningView from '../../../Meaning';
+import { setSizeableIcon, CancelIcon } from '../../../components/Icons';
 
 const { createRandomId } = helper;
 const AddWordContainerBlock = styled.div`
@@ -46,12 +47,6 @@ const AddWordContainerBlock = styled.div`
  */
 function AddWordContainer({ children }) {
     let usecaseId = useRef(0);
-    // synonyms
-    const [synonyms, setSynonyms] = useState([]);
-    const addSynonyms = useCallback(() => {
-        const id = createRandomId();
-        setSynonyms([...synonyms, { id, text: '' }]);
-    }, [synonyms]);
 
     const meaningModel = {
         explanation_en: 'explanation_en',
@@ -86,16 +81,66 @@ function AddWordContainer({ children }) {
     }, []);
     const onClickDeleteUsecase = useCallback(
         (id) => {
-            console.log(
-                '@@@result',
-                usecases.filter((item) => item.id !== id)
-            );
             setUsecases(usecases.filter((item) => item.id !== id));
         },
         [usecases]
     );
-    console.log('data: ', { ..._inputValues, usecases });
 
+    // synonym
+    const [synonyms, setSynonyms] = useState([]);
+    const addSynonyms = useCallback(() => {
+        const id = createRandomId();
+        setSynonyms([...synonyms, { id, text: '' }]);
+    }, [synonyms]);
+    const deleteSynonym = (idx) => {
+        setSynonyms((prev) => prev.filter((item) => item.id !== idx));
+    };
+    const onChangeSynonymInput = (e) => {
+        const { value, name } = e.target;
+        setSynonyms(
+            synonyms.map((item) =>
+                item.id == name ? { ...item, text: value } : item
+            )
+        );
+    };
+
+    // memo
+    const [memos, setMemos] = useState([]);
+    const addMemos = useCallback(() => {
+        const id = createRandomId();
+        setMemos([...memos, { id, text: '' }]);
+    }, [memos]);
+    const deleteMemos = (idx) => {
+        setMemos((prev) => prev.filter((item) => item.id !== idx));
+    };
+    const onChangeMemoInput = (e) => {
+        const { value, name } = e.target;
+        setMemos(
+            memos.map((item) =>
+                item.id == name ? { ...item, text: value } : item
+            )
+        );
+    };
+
+    // category
+    const [categories, setCategories] = useState([]);
+    const addCategories = useCallback(() => {
+        const id = createRandomId();
+        setCategories([...categories, { id, text: '' }]);
+    }, [categories]);
+    const deleteCategories = (idx) => {
+        setCategories((prev) => prev.filter((item) => item.id !== idx));
+    };
+    const onChangeCategoryInput = (e) => {
+        const { value, name } = e.target;
+        setCategories(
+            categories.map((item) =>
+                item.id == name ? { ...item, text: value } : item
+            )
+        );
+    };
+
+    console.log('data: ', { ..._inputValues, usecases }, synonyms);
     return (
         <AddWordContainerBlock>
             <MeaningView.AddCard>
@@ -134,6 +179,7 @@ function AddWordContainer({ children }) {
                             onClickDeleteUsecase={onClickDeleteUsecase}
                         />
                     ))}
+                <br />
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
                         onClick={addSynonyms}
@@ -143,34 +189,98 @@ function AddWordContainer({ children }) {
                         Add synonyms
                     </Buttons.RoundedBoxButton>
                 </AlignBox.Right>
-                {synonyms.map((synonymForm, key) => (
-                    <Forms.LabelingTextInput
-                        uiType="row"
-                        placeholder="synonym"
-                        name={synonymForm.id}
-                        labelingName="synonym"
-                        onChange={onChangeInputs}
+                <br />
+                {synonyms.map((s, key) => (
+                    <Forms.ButtonLabelingBox
                         key={key}
-                    />
+                        placeholder="synonym"
+                        labelingName="synonym"
+                        onChange={onChangeSynonymInput}
+                        name={s.id}
+                        value={s.text}
+                    >
+                        <Buttons.IconCircleButton
+                            onClick={() => {
+                                deleteSynonym(s.id);
+                            }}
+                            size={36}
+                            backgroundColor="white"
+                            customStyle={{
+                                fontSize: '28px',
+                            }}
+                        >
+                            <CancelIcon stroke="#919191" fill="#919191" />
+                        </Buttons.IconCircleButton>
+                    </Forms.ButtonLabelingBox>
                 ))}
+                <br />
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
-                        onClick={() => {}}
+                        onClick={addMemos}
                         fontSize={16}
                         backgroundColor="#ffeeab"
                     >
                         Add memos
                     </Buttons.RoundedBoxButton>
                 </AlignBox.Right>
+                <br />
+                {memos.map((m, key) => (
+                    <Forms.ButtonLabelingBox
+                        key={key}
+                        placeholder="memo"
+                        labelingName="memo"
+                        onChange={onChangeMemoInput}
+                        name={m.id}
+                        value={m.text}
+                    >
+                        <Buttons.IconCircleButton
+                            onClick={() => {
+                                deleteMemos(m.id);
+                            }}
+                            size={36}
+                            backgroundColor="white"
+                            customStyle={{
+                                fontSize: '28px',
+                            }}
+                        >
+                            <CancelIcon stroke="#919191" fill="#919191" />
+                        </Buttons.IconCircleButton>
+                    </Forms.ButtonLabelingBox>
+                ))}
+                <br />
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
-                        onClick={() => {}}
+                        onClick={addCategories}
                         fontSize={16}
                         backgroundColor="#d8ffab"
                     >
                         Add categories
                     </Buttons.RoundedBoxButton>
                 </AlignBox.Right>
+                <br />
+                {categories.map((c, key) => (
+                    <Forms.ButtonLabelingBox
+                        key={key}
+                        placeholder="category"
+                        labelingName="category"
+                        onChange={onChangeCategoryInput}
+                        name={c.id}
+                        value={c.text}
+                    >
+                        <Buttons.IconCircleButton
+                            onClick={() => {
+                                deleteCategories(c.id);
+                            }}
+                            size={36}
+                            backgroundColor="white"
+                            customStyle={{
+                                fontSize: '28px',
+                            }}
+                        >
+                            <CancelIcon stroke="#919191" fill="#919191" />
+                        </Buttons.IconCircleButton>
+                    </Forms.ButtonLabelingBox>
+                ))}
             </MeaningView.AddCard>
         </AddWordContainerBlock>
     );
