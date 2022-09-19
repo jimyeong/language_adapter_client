@@ -20,7 +20,15 @@ const normalizeButton = ({ backgroundColor }) => {
     `;
 };
 const Buttons = {};
-const ButtonsBlock = styled.div``;
+Buttons.WideButton = styled.button`
+    width: 100%;
+    ${(props) =>
+        normalizeButton({
+            backgroundColor: props.backgroundColor
+                ? props.backgroundColor
+                : BaseLayoutConfig.primaryColor,
+        })};
+`;
 const CircleButton = styled.button`
     display: flex;
     justify-content: center;
@@ -46,13 +54,15 @@ const RoundedBoxButton = styled.button`
     border-radius: 8px;
     color: ${(props) => props.fontColor};
     background-color: ${(props) => props.backgroundColor};
-    font-size: ${(props) => `${props.fontSize}px`};
     ${(props) =>
         normalizeButton({
             backgroundColor: props.backgroundColor
                 ? props.backgroundColor
                 : BaseLayoutConfig.primaryColor,
         })};
+    ${(props) => props.full && 'width: 100%'};
+    ${(props) =>
+        props.fontSize ? `font-size: ${props.fontSize}` : `font-size: 16px`};
 `;
 
 const IconCircleButton = ({

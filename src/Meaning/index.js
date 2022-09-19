@@ -1,7 +1,9 @@
 import MeaningCard from './view/MeaningCard';
 import AddCard from './view/AddCard';
-const MeaningView = {};
-MeaningView.Card = MeaningCard;
-MeaningView.AddCard = AddCard;
+import MeaningView from './view/MeaningView';
+const MeaningComponents = {};
+MeaningComponents.Card = MeaningCard;
+MeaningComponents.AddCard = AddCard;
+MeaningComponents.MeaningView = MeaningView;
 
-export default MeaningView;
+export default MeaningComponents;

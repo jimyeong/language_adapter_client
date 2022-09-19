@@ -2,7 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import TextInput from './TextInput';
 
-const labeling_col = () => {};
+const labeling_col = () => {
+    return `
+        .textinput__label {
+            display: inline-block;
+            padding-bottom:4px;
+        }
+    `;
+};
 const labeling_row = () => {
     return `
     & + & {

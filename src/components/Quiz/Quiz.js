@@ -22,6 +22,7 @@ const QuizBlock = styled.div`
 const Quiz = ({ quiz, ...rest }) => {
     const [showHint, setShowHint] = useState(false);
     const [showAnswer, setShowAnswer] = useState(false);
+    const [description, setDescription] = useState(false);
     const renderAnswerButton = (showFlag) => {
         if (showFlag)
             return (
@@ -52,19 +53,59 @@ const Quiz = ({ quiz, ...rest }) => {
             </button>
         );
     };
+
+    const renderHintStepFirstButton = (showFlag) => {
+        if (showFlag) {
+            return (
+                <button
+                    onClick={() => {
+                        setDescription(false);
+                    }}
+                    className="btn purple"
+                >
+                    글자힌트 숨김
+                </button>
+            );
+        }
+        if (!showFlag) {
+            return (
+                <button
+                    onClick={() => {
+                        setDescription(true);
+                    }}
+                    className="btn purple"
+                >
+                    글자힌트 보기
+                </button>
+            );
+        }
+    };
     return (
         <QuizBlock>
             <div className="inner__wrapper">
                 <div className="btn__area">
                     {renderHintButton(showHint)}
                     {renderAnswerButton(showAnswer)}
-                    <button className="btn purple">사진보기</button>
+                    {renderHintStepFirstButton(description)}
                     <button className="btn orange">퀴즈수정</button>
                     <button className="btn green">정답처리</button>
                     <button className="btn red">오답처리</button>
                 </div>
-                <h3>{quiz.lang_origin}</h3>
+                <br />
+                <h3>{description && quiz.lang_origin}</h3>
+                <br />
                 {showAnswer && <p className="quiz__txt">{quiz.lang_english}</p>}
+                <br />
+                {quiz.image_url ? (
+                    <div>
+                        <img src={quiz.image_url} alt="" />
+                    </div>
+                ) : (
+                    <div>
+                        <span>image not registered</span>
+                    </div>
+                )}
+                <br />
                 {showHint && (
                     <div className="hint__area">
                         <RandomColorBorderRoundChip text={quiz.key_phrase} />

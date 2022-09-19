@@ -8,19 +8,22 @@ import React, {
     useContext,
 } from 'react';
 import styled from 'styled-components';
-import helper from '../../../helper';
+import helper, { axiosApi } from '../../../helper';
 import UsecaseContainer from '../UsecaseContainer';
 
 import Colours from '../../../components/Colours';
 import { BaseLayoutConfig } from '../../../components/globalUIconfig';
 import { AlignBox, Buttons, Forms, Chips } from '../../../components';
 import useInputs from '../../../helper/useInputs';
-import MeaningView from '../../../Meaning';
+import MeaningComponents from '../../../Meaning';
 import { setSizeableIcon, CancelIcon } from '../../../components/Icons';
 
 const { createRandomId } = helper;
 const AddWordContainerBlock = styled.div`
-    padding: 0 16px;
+    padding: 0 16px 32px;
+    background: #e8e9e8;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2px 2px rgb(0 0 0 / 5%);
 `;
 
 /**
@@ -140,10 +143,40 @@ function AddWordContainer({ children }) {
         );
     };
 
+    // reqeust to server
+    const saveExpression = () => {
+        const url = '/v1/words/add';
+        const params = {
+            ..._inputValues,
+            usecases,
+        };
+
+        axiosApi.privatePostAxios(url);
+    };
+
     console.log('data: ', { ..._inputValues, usecases }, synonyms);
     return (
         <AddWordContainerBlock>
-            <MeaningView.AddCard>
+            <br />
+            <AlignBox.Right>
+                <Buttons.RoundedBoxButton
+                    onClick={() => {}}
+                    fontSize={16}
+                    backgroundColor="#08c"
+                    fontColor="#fff"
+                >
+                    Add more meanings
+                </Buttons.RoundedBoxButton>
+            </AlignBox.Right>
+            <br />
+            <Forms.LabelingTextInput
+                uiType="row"
+                placeholder="english word/expression"
+                name="en_word"
+                labelingName="en_word"
+            />
+            <br />
+            <MeaningComponents.AddCard>
                 <AlignBox.Right>
                     <Buttons.RoundedBoxButton
                         onClick={onClickHandlerAddUseCases}
@@ -281,7 +314,26 @@ function AddWordContainer({ children }) {
                         </Buttons.IconCircleButton>
                     </Forms.ButtonLabelingBox>
                 ))}
-            </MeaningView.AddCard>
+                <br />
+                <br />
+                <Buttons.RoundedBoxButton
+                    onClick={() => {}}
+                    full={true}
+                    backgroundColor="#ff3333"
+                >
+                    <span style={{ fontSize: '24px' }}>👊</span>
+                    <span
+                        style={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: 'yellow',
+                        }}
+                    >
+                        Save
+                    </span>
+                    <span style={{ fontSize: '24px' }}>👊</span>
+                </Buttons.RoundedBoxButton>
+            </MeaningComponents.AddCard>
         </AddWordContainerBlock>
     );
 }

@@ -129,6 +129,14 @@ function MeaningCard({ english_word: word, children }) {
                                 return (
                                     <div key={key}>
                                         <div key={key}>
+                                            {usecase.image_url !== '' && (
+                                                <div>
+                                                    <img
+                                                        src={usecase.image_url}
+                                                        alt=""
+                                                    />
+                                                </div>
+                                            )}
                                             <div>
                                                 <span>en:</span>
                                                 {usecase.lang_english}

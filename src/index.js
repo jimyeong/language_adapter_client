@@ -7,15 +7,18 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
 import AddWordContainer from './Main/container/Details/AddWordContainer';
-
+import ProductQuizContainer from './ProductsQuizContainer';
+import { RootContainer } from './components/Containers';
 ReactDOM.render(
     <React.StrictMode>
-        <Router>
-            <Provider store={store}>
-                <AddWordContainer />
-                <App />
-            </Provider>
-        </Router>
+        <RootContainer>
+            {/* <ProductQuizContainer /> */}
+            <Router>
+                <Provider store={store}>
+                    <App />
+                </Provider>
+            </Router>
+        </RootContainer>
     </React.StrictMode>,
     document.getElementById('root')
 );

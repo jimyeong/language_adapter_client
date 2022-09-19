@@ -70,6 +70,7 @@ function App() {
         }
         return () => {};
     }, [location.state]);
+
     if (systemState.loading == loadingState.loading) {
         return <LoadingSpinner />;
     }
@@ -85,6 +86,7 @@ function App() {
             </React.Fragment>
         );
     }
+
     // !systemState.user && navigate('/login');
 }
 function LayoutContainer({ children }) {

@@ -162,3 +162,8 @@ I
 추가한다.
 
 그리고 복습에 추가해서 나오게 하도록 한다.
+
+말하는 버튼 추가할 것
+또는 컨베이어 버튼(말풍선이 막오락가락 하면서 얘기함)
+
+meaning should be fixed in the way that it must be able to be added with multiple of it
