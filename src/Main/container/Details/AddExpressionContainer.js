@@ -17,6 +17,8 @@ import { AlignBox, Buttons, Forms, Chips } from '../../../components';
 import useInputs from '../../../helper/useInputs';
 import MeaningComponents from '../../../Meaning';
 import { setSizeableIcon, CancelIcon } from '../../../components/Icons';
+import AddWordContainer from './AddWordContainer';
+import { useNavigate } from 'react-router-dom';
 
 const meaningModel = {};
 const Wrapper = styled.div``;
@@ -43,74 +45,49 @@ const Wrapper = styled.div``;
     }]
 }
  */
-const AddExpressionContainer = () => {
+const AddExpressionContainer = ({ children }) => {
+    const navigate = useNavigate();
+
+    const meaningList = useRef([]);
+
     const meaningId = useRef(0);
     const [meanings, setMeanings] = useState([]);
     const [_inputValues, onChangeInputs, onResetInputs] = useInputs({
         english_word: '',
     });
-    const onClickAddMeaningButton = useCallback(
-        (e) => {
-            setMeanings((prev) => [
-                ...prev,
-                {
-                    meaning_id: meaningId.current,
-                    english_word: _inputValues.english_word,
-                    explanation_en: '',
-                    explanation_mt: '',
-                    meaning_image: '',
-                    usecases: [],
-                    synonyms: [],
-                    meaningMemos: [],
-                    tags: [],
-                },
-            ]);
-            meaningId.current++;
-        },
-        [meanings]
-    );
-    const addUsecases = useCallback(
-        (index) => {
-            setMeanings((prev) => {
-                return prev.map((meaning) => {
-                    return meaning.id == index
-                        ? {
-                              ...meaning,
-                              lang_english: '',
-                              lang_origin: '',
-                              key_phrase: '',
-                              image_url: '',
-                          }
-                        : meaning;
-                });
-            });
-        },
-        [meanings]
-    );
-    const onChangeUsecases = useCallback(
-        (e, index) => {
-            const { name, value } = e.currentTaget;
+    const onClickAddMeaning = () => {
+        setMeanings((prev) => [...prev, { id: meaningId.current }]);
+        meaningId.current += 1;
+    };
+    useEffect(() => {
+        meaningList.current = meaningList.current.slice(0, meaningList.length);
+        return () => {};
+    }, [meaningList]);
 
-            setMeanings((prev) => {
-                return prev.map((meaning) => {
-                    return meaning.id == index
-                        ? {
-                              ...meaning,
-                              [name]: value,
-                          }
-                        : meaning;
-                });
-            });
-        },
-        [meanings]
-    );
+    // reqeust to server
+    const saveExpression = () => {
+        const url = '/v1/words/add';
+        const params = {
+            ..._inputValues,
+            meanings: meaningList.current,
+        };
+        return axiosApi.privatePostAxios(url, params, {
+            navigate,
+            destination: { from: '/dashboard', to: 'dashboard' },
+        });
+    };
+    const onSaveClick = () => {
+        console.log('meaningList@@@@', meaningList.current);
+        console.log('meaningList.length@@@@', meaningList.current.length);
+        saveExpression();
+    };
 
     return (
         <Wrapper>
             <br />
             <AlignBox.Right>
                 <Buttons.RoundedBoxButton
-                    onClick={onClickAddMeaningButton}
+                    onClick={onClickAddMeaning}
                     fontSize={16}
                     backgroundColor="#08c"
                     fontColor="#fff"
@@ -122,25 +99,23 @@ const AddExpressionContainer = () => {
             <Forms.LabelingTextInput
                 uiType="row"
                 placeholder="english word/expression"
-                name="en_word"
-                labelingName="en_word"
+                name="english_word"
+                labelingName="english_word"
                 onChange={onChangeInputs}
             />
             <br />
+
             {meanings.length > 0 &&
-                meanings.map((meaning, key) => {
-                    return (
-                        <MeaningComponents.MeaningView
-                            key={key}
-                            meaning={meaning}
-                            addUsecases={addUsecases}
-                            onChangeUsecases={onChangeUsecases}
-                        />
-                    );
-                })}
+                meanings.map((item, key) => (
+                    <AddWordContainer
+                        list={meaningList}
+                        key={key}
+                        item={item}
+                    />
+                ))}
 
             <Buttons.RoundedBoxButton
-                onClick={() => {}}
+                onClick={onSaveClick}
                 full={true}
                 backgroundColor="#ff3333"
             >

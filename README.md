@@ -167,3 +167,5 @@ I
 또는 컨베이어 버튼(말풍선이 막오락가락 하면서 얘기함)
 
 meaning should be fixed in the way that it must be able to be added with multiple of it
+
+세션이 있는 상태에선 대시보드로 가지지 않음

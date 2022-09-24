@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { BaseLayoutConfig } from '../../components/globalUIconfig';
 
 const AddCard = styled.div`
+    & + & {
+        margin-top: 1rem;
+    }
     border-radius: 8px;
     padding: ${(props) => `${BaseLayoutConfig.mobileSidePadding}px`};
     padding-bottom: ${(props) =>

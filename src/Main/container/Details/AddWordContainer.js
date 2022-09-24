@@ -17,6 +17,7 @@ import { AlignBox, Buttons, Forms, Chips } from '../../../components';
 import useInputs from '../../../helper/useInputs';
 import MeaningComponents from '../../../Meaning';
 import { setSizeableIcon, CancelIcon } from '../../../components/Icons';
+import { useImperativeHandle } from 'react';
 
 const { createRandomId } = helper;
 const AddWordContainerBlock = styled.div`
@@ -48,7 +49,8 @@ const AddWordContainerBlock = styled.div`
     }]
 }
  */
-function AddWordContainer({ children }) {
+
+const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
     let usecaseId = useRef(0);
 
     const meaningModel = {
@@ -79,6 +81,7 @@ function AddWordContainer({ children }) {
         },
         [usecases]
     );
+
     const onChangeUsecase = useCallback((newList) => {
         setUsecases(newList);
     }, []);
@@ -108,18 +111,18 @@ function AddWordContainer({ children }) {
     };
 
     // memo
-    const [memos, setMemos] = useState([]);
+    const [meaningMemos, setMeaningMemos] = useState([]);
     const addMemos = useCallback(() => {
         const id = createRandomId();
-        setMemos([...memos, { id, text: '' }]);
-    }, [memos]);
+        setMeaningMemos([...meaningMemos, { id, text: '' }]);
+    }, [meaningMemos]);
     const deleteMemos = (idx) => {
-        setMemos((prev) => prev.filter((item) => item.id !== idx));
+        setMeaningMemos((prev) => prev.filter((item) => item.id !== idx));
     };
     const onChangeMemoInput = (e) => {
         const { value, name } = e.target;
-        setMemos(
-            memos.map((item) =>
+        setMeaningMemos(
+            meaningMemos.map((item) =>
                 item.id == name ? { ...item, text: value } : item
             )
         );
@@ -143,199 +146,183 @@ function AddWordContainer({ children }) {
         );
     };
 
-    // reqeust to server
-    const saveExpression = () => {
-        const url = '/v1/words/add';
-        const params = {
+    console.log('data: ', { ..._inputValues, usecases }, synonyms);
+    // useImperativeHandle(ref, () => ({
+    //     getFormData: () => {
+    //         return { ..._inputValues, usecases, synonyms, memos, categories };
+    //     },
+    // }));
+
+    useEffect(() => {
+        list.current[parseInt(item.id)] = {
             ..._inputValues,
             usecases,
+            synonyms,
+            meaningMemos,
+            categories,
         };
+    }, [_inputValues, usecases, synonyms, meaningMemos, categories]);
 
-        axiosApi.privatePostAxios(url);
-    };
-
-    console.log('data: ', { ..._inputValues, usecases }, synonyms);
     return (
-        <AddWordContainerBlock>
-            <br />
+        <MeaningComponents.AddCard>
             <AlignBox.Right>
                 <Buttons.RoundedBoxButton
-                    onClick={() => {}}
+                    onClick={onClickHandlerAddUseCases}
                     fontSize={16}
-                    backgroundColor="#08c"
-                    fontColor="#fff"
+                    backgroundColor="#abffe9"
                 >
-                    Add more meanings
+                    Add more usecases
                 </Buttons.RoundedBoxButton>
             </AlignBox.Right>
             <br />
             <Forms.LabelingTextInput
-                uiType="row"
-                placeholder="english word/expression"
-                name="en_word"
-                labelingName="en_word"
+                uiType="col"
+                placeholder="explanation_en"
+                name={meaningModel.explanation_en}
+                labelingName="explanation in en"
+                onChange={onChangeInputs}
+            />
+            <Forms.LabelingTextInput
+                uiType="col"
+                placeholder="explanation_mt"
+                name={meaningModel.explanation_mt}
+                labelingName="explanation in mother tongue"
+                onChange={onChangeInputs}
             />
             <br />
-            <MeaningComponents.AddCard>
-                <AlignBox.Right>
-                    <Buttons.RoundedBoxButton
-                        onClick={onClickHandlerAddUseCases}
-                        fontSize={16}
-                        backgroundColor="#abffe9"
-                    >
-                        Add more usecases
-                    </Buttons.RoundedBoxButton>
-                </AlignBox.Right>
-                <br />
-                <Forms.LabelingTextInput
-                    uiType="col"
-                    placeholder="explanation_en"
-                    name={meaningModel.explanation_en}
-                    labelingName="explanation in en"
-                    onChange={onChangeInputs}
-                />
-                <Forms.LabelingTextInput
-                    uiType="col"
-                    placeholder="explanation_mt"
-                    name={meaningModel.explanation_mt}
-                    labelingName="explanation in mother tongue"
-                    onChange={onChangeInputs}
-                />
-                <br />
-                {usecases.length > 0 &&
-                    usecases.map((usecase, key) => (
-                        <UsecaseContainer
-                            key={key}
-                            list={usecases}
-                            item={usecase}
-                            onChangeUsecase={onChangeUsecase}
-                            onClickDeleteUsecase={onClickDeleteUsecase}
-                        />
-                    ))}
-                <br />
-                <AlignBox.Right>
-                    <Buttons.RoundedBoxButton
-                        onClick={addSynonyms}
-                        fontSize={16}
-                        backgroundColor="#ffd9cd"
-                    >
-                        Add synonyms
-                    </Buttons.RoundedBoxButton>
-                </AlignBox.Right>
-                <br />
-                {synonyms.map((s, key) => (
-                    <Forms.ButtonLabelingBox
+            {usecases.length > 0 &&
+                usecases.map((usecase, key) => (
+                    <UsecaseContainer
                         key={key}
-                        placeholder="synonym"
-                        labelingName="synonym"
-                        onChange={onChangeSynonymInput}
-                        name={s.id}
-                        value={s.text}
-                    >
-                        <Buttons.IconCircleButton
-                            onClick={() => {
-                                deleteSynonym(s.id);
-                            }}
-                            size={36}
-                            backgroundColor="white"
-                            customStyle={{
-                                fontSize: '28px',
-                            }}
-                        >
-                            <CancelIcon stroke="#919191" fill="#919191" />
-                        </Buttons.IconCircleButton>
-                    </Forms.ButtonLabelingBox>
+                        list={usecases}
+                        item={usecase}
+                        onChangeUsecase={onChangeUsecase}
+                        onClickDeleteUsecase={onClickDeleteUsecase}
+                    />
                 ))}
-                <br />
-                <AlignBox.Right>
-                    <Buttons.RoundedBoxButton
-                        onClick={addMemos}
-                        fontSize={16}
-                        backgroundColor="#ffeeab"
-                    >
-                        Add memos
-                    </Buttons.RoundedBoxButton>
-                </AlignBox.Right>
-                <br />
-                {memos.map((m, key) => (
-                    <Forms.ButtonLabelingBox
-                        key={key}
-                        placeholder="memo"
-                        labelingName="memo"
-                        onChange={onChangeMemoInput}
-                        name={m.id}
-                        value={m.text}
-                    >
-                        <Buttons.IconCircleButton
-                            onClick={() => {
-                                deleteMemos(m.id);
-                            }}
-                            size={36}
-                            backgroundColor="white"
-                            customStyle={{
-                                fontSize: '28px',
-                            }}
-                        >
-                            <CancelIcon stroke="#919191" fill="#919191" />
-                        </Buttons.IconCircleButton>
-                    </Forms.ButtonLabelingBox>
-                ))}
-                <br />
-                <AlignBox.Right>
-                    <Buttons.RoundedBoxButton
-                        onClick={addCategories}
-                        fontSize={16}
-                        backgroundColor="#d8ffab"
-                    >
-                        Add categories
-                    </Buttons.RoundedBoxButton>
-                </AlignBox.Right>
-                <br />
-                {categories.map((c, key) => (
-                    <Forms.ButtonLabelingBox
-                        key={key}
-                        placeholder="category"
-                        labelingName="category"
-                        onChange={onChangeCategoryInput}
-                        name={c.id}
-                        value={c.text}
-                    >
-                        <Buttons.IconCircleButton
-                            onClick={() => {
-                                deleteCategories(c.id);
-                            }}
-                            size={36}
-                            backgroundColor="white"
-                            customStyle={{
-                                fontSize: '28px',
-                            }}
-                        >
-                            <CancelIcon stroke="#919191" fill="#919191" />
-                        </Buttons.IconCircleButton>
-                    </Forms.ButtonLabelingBox>
-                ))}
-                <br />
-                <br />
+            <br />
+            <AlignBox.Right>
                 <Buttons.RoundedBoxButton
-                    onClick={() => {}}
-                    full={true}
-                    backgroundColor="#ff3333"
+                    onClick={addSynonyms}
+                    fontSize={16}
+                    backgroundColor="#ffd9cd"
                 >
-                    <span style={{ fontSize: '24px' }}>👊</span>
-                    <span
-                        style={{
-                            fontSize: '24px',
-                            fontWeight: 'bold',
-                            color: 'yellow',
+                    Add synonyms
+                </Buttons.RoundedBoxButton>
+            </AlignBox.Right>
+            <br />
+            {synonyms.map((s, key) => (
+                <Forms.ButtonLabelingBox
+                    key={key}
+                    placeholder="synonym"
+                    labelingName="synonym"
+                    onChange={onChangeSynonymInput}
+                    name={s.id}
+                    value={s.text}
+                >
+                    <Buttons.IconCircleButton
+                        onClick={() => {
+                            deleteSynonym(s.id);
+                        }}
+                        size={36}
+                        backgroundColor="white"
+                        customStyle={{
+                            fontSize: '28px',
                         }}
                     >
-                        Save
-                    </span>
-                    <span style={{ fontSize: '24px' }}>👊</span>
+                        <CancelIcon stroke="#919191" fill="#919191" />
+                    </Buttons.IconCircleButton>
+                </Forms.ButtonLabelingBox>
+            ))}
+            <br />
+            <AlignBox.Right>
+                <Buttons.RoundedBoxButton
+                    onClick={addMemos}
+                    fontSize={16}
+                    backgroundColor="#ffeeab"
+                >
+                    Add memos
                 </Buttons.RoundedBoxButton>
-            </MeaningComponents.AddCard>
-        </AddWordContainerBlock>
+            </AlignBox.Right>
+            <br />
+            {meaningMemos.map((m, key) => (
+                <Forms.ButtonLabelingBox
+                    key={key}
+                    placeholder="memo"
+                    labelingName="meaningMemos"
+                    onChange={onChangeMemoInput}
+                    name={m.id}
+                    value={m.text}
+                >
+                    <Buttons.IconCircleButton
+                        onClick={() => {
+                            deleteMemos(m.id);
+                        }}
+                        size={36}
+                        backgroundColor="white"
+                        customStyle={{
+                            fontSize: '28px',
+                        }}
+                    >
+                        <CancelIcon stroke="#919191" fill="#919191" />
+                    </Buttons.IconCircleButton>
+                </Forms.ButtonLabelingBox>
+            ))}
+            <br />
+            <AlignBox.Right>
+                <Buttons.RoundedBoxButton
+                    onClick={addCategories}
+                    fontSize={16}
+                    backgroundColor="#d8ffab"
+                >
+                    Add categories
+                </Buttons.RoundedBoxButton>
+            </AlignBox.Right>
+            <br />
+            {categories.map((c, key) => (
+                <Forms.ButtonLabelingBox
+                    key={key}
+                    placeholder="category"
+                    labelingName="category"
+                    onChange={onChangeCategoryInput}
+                    name={c.id}
+                    value={c.text}
+                >
+                    <Buttons.IconCircleButton
+                        onClick={() => {
+                            deleteCategories(c.id);
+                        }}
+                        size={36}
+                        backgroundColor="white"
+                        customStyle={{
+                            fontSize: '28px',
+                        }}
+                    >
+                        <CancelIcon stroke="#919191" fill="#919191" />
+                    </Buttons.IconCircleButton>
+                </Forms.ButtonLabelingBox>
+            ))}
+            <br />
+            <br />
+            <Buttons.RoundedBoxButton
+                onClick={() => {}}
+                full={true}
+                backgroundColor="#ff3333"
+            >
+                <span style={{ fontSize: '24px' }}>👊</span>
+                <span
+                    style={{
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        color: 'yellow',
+                    }}
+                >
+                    Save
+                </span>
+                <span style={{ fontSize: '24px' }}>👊</span>
+            </Buttons.RoundedBoxButton>
+        </MeaningComponents.AddCard>
     );
-}
+});
 
 export default AddWordContainer;

@@ -10,7 +10,8 @@ const HomeContainerBlock = styled.div``;
 function HomeContainer({ children }) {
     return (
         <HomeContainerBlock>
-            <AddWordContainer />
+            <AddExpressionContainer />
+            {/* <AddWordContainer /> */}
             <MainContainer />
         </HomeContainerBlock>
     );
