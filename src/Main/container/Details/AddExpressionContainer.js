@@ -65,16 +65,17 @@ const AddExpressionContainer = ({ children }) => {
     }, [meaningList]);
 
     // reqeust to server
-    const saveExpression = () => {
+    const saveExpression = async () => {
         const url = '/v1/words/add';
         const params = {
             ..._inputValues,
             meanings: meaningList.current,
         };
-        return axiosApi.privatePostAxios(url, params, {
+        const result = await axiosApi.privatePostAxios(url, params, {
             navigate,
             destination: { from: '/dashboard', to: 'dashboard' },
         });
+        meaningList.current = [];
     };
     const onSaveClick = () => {
         console.log('meaningList@@@@', meaningList.current);
@@ -114,23 +115,27 @@ const AddExpressionContainer = ({ children }) => {
                     />
                 ))}
 
-            <Buttons.RoundedBoxButton
-                onClick={onSaveClick}
-                full={true}
-                backgroundColor="#ff3333"
-            >
-                <span style={{ fontSize: '24px' }}>👊</span>
-                <span
-                    style={{
-                        fontSize: '24px',
-                        fontWeight: 'bold',
-                        color: 'yellow',
-                    }}
+            <br />
+            <br />
+            <div style={{ padding: '0 16px' }}>
+                <Buttons.RoundedBoxButton
+                    onClick={onSaveClick}
+                    full={true}
+                    backgroundColor="#ff3333"
                 >
-                    Save
-                </span>
-                <span style={{ fontSize: '24px' }}>👊</span>
-            </Buttons.RoundedBoxButton>
+                    <span style={{ fontSize: '24px' }}>👊</span>
+                    <span
+                        style={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: 'yellow',
+                        }}
+                    >
+                        Save
+                    </span>
+                    <span style={{ fontSize: '24px' }}>👊</span>
+                </Buttons.RoundedBoxButton>
+            </div>
         </Wrapper>
     );
 };

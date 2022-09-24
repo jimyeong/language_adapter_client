@@ -71,10 +71,10 @@ const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
                 {
                     id: usecaseId.current,
                     searchTerm: '',
-                    selectedImage: '',
-                    definitionInEn: '',
-                    definitionInMt: '',
-                    keyphrase: '',
+                    image_url: '',
+                    lang_english: '',
+                    lang_origin: '',
+                    key_phrase: '',
                 },
             ]);
             usecaseId.current += 1;
@@ -146,6 +146,24 @@ const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
         );
     };
 
+    // tags
+    const [tags, setTags] = useState([]);
+    const addTags = useCallback(() => {
+        const id = createRandomId();
+        setTags([...tags, { id, text: '' }]);
+    }, [tags]);
+    const deleteTags = (idx) => {
+        setTags((prev) => prev.filter((item) => item.id != idx));
+    };
+    const onChangeTagInput = (e) => {
+        const { value, name } = e.target;
+        setTags(
+            tags.map((item) =>
+                item.id == name ? { ...item, text: value } : item
+            )
+        );
+    };
+
     console.log('data: ', { ..._inputValues, usecases }, synonyms);
     // useImperativeHandle(ref, () => ({
     //     getFormData: () => {
@@ -159,9 +177,9 @@ const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
             usecases,
             synonyms,
             meaningMemos,
-            categories,
+            tags,
         };
-    }, [_inputValues, usecases, synonyms, meaningMemos, categories]);
+    }, [_inputValues, usecases, synonyms, meaningMemos, tags]);
 
     return (
         <MeaningComponents.AddCard>
@@ -269,28 +287,29 @@ const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
                 </Forms.ButtonLabelingBox>
             ))}
             <br />
+
             <AlignBox.Right>
                 <Buttons.RoundedBoxButton
-                    onClick={addCategories}
+                    onClick={addTags}
                     fontSize={16}
-                    backgroundColor="#d8ffab"
+                    backgroundColor="#bfabff"
                 >
-                    Add categories
+                    Add tags
                 </Buttons.RoundedBoxButton>
             </AlignBox.Right>
             <br />
-            {categories.map((c, key) => (
+            {tags.map((m, key) => (
                 <Forms.ButtonLabelingBox
                     key={key}
-                    placeholder="category"
-                    labelingName="category"
-                    onChange={onChangeCategoryInput}
-                    name={c.id}
-                    value={c.text}
+                    placeholder="tag"
+                    labelingName="tag"
+                    onChange={onChangeTagInput}
+                    name={m.id}
+                    value={m.text}
                 >
                     <Buttons.IconCircleButton
                         onClick={() => {
-                            deleteCategories(c.id);
+                            deleteTags(m.id);
                         }}
                         size={36}
                         backgroundColor="white"
@@ -303,24 +322,6 @@ const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
                 </Forms.ButtonLabelingBox>
             ))}
             <br />
-            <br />
-            <Buttons.RoundedBoxButton
-                onClick={() => {}}
-                full={true}
-                backgroundColor="#ff3333"
-            >
-                <span style={{ fontSize: '24px' }}>👊</span>
-                <span
-                    style={{
-                        fontSize: '24px',
-                        fontWeight: 'bold',
-                        color: 'yellow',
-                    }}
-                >
-                    Save
-                </span>
-                <span style={{ fontSize: '24px' }}>👊</span>
-            </Buttons.RoundedBoxButton>
         </MeaningComponents.AddCard>
     );
 });

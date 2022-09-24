@@ -31,13 +31,8 @@ function UsecaseContainer({
     onClickDeleteUsecase,
 }) {
     let gf = useRef();
-    const {
-        searchTerm,
-        selectedImage,
-        definitionInEn,
-        definitionInMt,
-        keyphrase,
-    } = item;
+    const { searchTerm, image_url, lang_english, lang_origin, key_phrase } =
+        item;
     // const [searchTerm, setSearchTerm] = useState('');
     // const [selectedImage, setSeletedImage] = useState('');
     console.log('what is the current? ?? ? ? ? item', item);
@@ -82,25 +77,25 @@ function UsecaseContainer({
             <Forms.LabelingTextInput
                 uiType="col"
                 placeholder="definition in en"
-                name="definitionInEn"
+                name="lang_english"
                 labelingName="english definition"
-                value={definitionInEn}
+                value={lang_english}
                 onChange={onChange}
             />
             <Forms.LabelingTextInput
                 uiType="col"
                 placeholder="definition in mother tongue"
-                name="definitionInMt"
+                name="lang_origin"
                 labelingName="mother tongue definition"
-                value={definitionInMt}
+                value={lang_origin}
                 onChange={onChange}
             />
             <Forms.LabelingTextInput
                 uiType="col"
                 placeholder="keyphrase"
-                name="keyphrase"
+                name="key_phrase"
                 labelingName="keyphrase"
-                value={keyphrase}
+                value={key_phrase}
                 onChange={onChange}
             />
             <Forms.LabelingBox uiType="col" labelingName="look up image">
@@ -124,18 +119,16 @@ function UsecaseContainer({
                         fetchGifs={fetchGif}
                         onGifClick={(gif, e) => {
                             const index = item.id;
-                            const selectedImage = gif.images.downsized.url;
+                            const image_url = gif.images.downsized.url;
                             const newList = list.map((item) =>
-                                item.id == index
-                                    ? { ...item, selectedImage }
-                                    : item
+                                item.id == index ? { ...item, image_url } : item
                             );
                             onChangeUsecase(newList);
                         }}
                     />
                 )}
             </Forms.LabelingBox>
-            {selectedImage !== '' && (
+            {image_url !== '' && (
                 <Forms.LabelingBox labelingName="selected image" uiType="col">
                     <div
                         style={{
@@ -144,7 +137,7 @@ function UsecaseContainer({
                         }}
                         className="border__frame"
                     >
-                        <img src={selectedImage} alt="selected image" />
+                        <img src={image_url} alt="selected image" />
                     </div>
                 </Forms.LabelingBox>
             )}
