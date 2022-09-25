@@ -64,6 +64,11 @@ const AddExpressionContainer = ({ children }) => {
         return () => {};
     }, [meaningList]);
 
+    const initForms = () => {
+        setMeanings([]);
+        meaningList.current = [];
+        onResetInputs();
+    };
     // reqeust to server
     const saveExpression = async () => {
         const url = '/v1/words/add';
@@ -76,7 +81,7 @@ const AddExpressionContainer = ({ children }) => {
             navigate,
             destination: { from: '/dashboard', to: 'dashboard' },
         });
-        meaningList.current = [];
+        initForms();
     };
     const onSaveClick = () => {
         console.log('meaningList@@@@', meaningList.current);
@@ -104,6 +109,7 @@ const AddExpressionContainer = ({ children }) => {
                 name="english_word"
                 labelingName="english_word"
                 onChange={onChangeInputs}
+                value={_inputValues.english_word}
             />
             <br />
 

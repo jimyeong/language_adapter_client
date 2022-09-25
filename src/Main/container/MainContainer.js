@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Calendar } from '../../components/Calendar';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import CurrentEventsContainer from '../../myCalendar/ui/container/CurrentEventsContainer';
+
 import { useNavigate } from 'react-router-dom';
 import { RootContainer } from '../../components/Containers';
 import { BaseFloatingButton } from '../../components/FloatingButtons';
@@ -142,7 +142,10 @@ const MainContainer = ({ children, ...rest }) => {
     };
 
     if (loading) return <LoadingSpinner />;
-    if (error) return <div>에러가 발생하였습니다.</div>;
+    if (error) {
+        console.log('@@@@what is this error', error);
+        return <div>에러가 발생하였습니다.</div>;
+    }
     // console.log(['events'], events);
     return (
         <React.Fragment>
