@@ -71,6 +71,7 @@ const AddExpressionContainer = ({ children }) => {
             ..._inputValues,
             meanings: meaningList.current,
         };
+        console.log('@@@params', params);
         const result = await axiosApi.privatePostAxios(url, params, {
             navigate,
             destination: { from: '/dashboard', to: 'dashboard' },

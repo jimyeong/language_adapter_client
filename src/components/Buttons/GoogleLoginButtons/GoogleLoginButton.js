@@ -25,15 +25,15 @@ const GoogleLoginButton = ({
         };
         window.onload = function () {
             /* eslint-disable */
-            google.accounts.id.initialize({
+            google?.accounts.id.initialize({
                 client_id: clientId,
                 callback: handleCredentialResponse,
             });
-            google.accounts.id.renderButton(
+            google?.accounts.id.renderButton(
                 document.getElementById('google_login_button'),
                 { theme: 'filled_blue', size: 'large', shape: 'pill' } // customization attributes
             );
-            google.accounts.id.prompt(); // also display the One Tap dialog
+            google?.accounts.id.prompt(); // also display the One Tap dialog
             /* eslint-enable */
         };
     }, []);
