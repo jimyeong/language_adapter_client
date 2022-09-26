@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import helper from '../../helper';
+import LabelText from '../../components/v1/Texts/LabelText';
 const { pixelToRem, setColor } = helper;
 
 const MeaningCardBlock = styled.div`
@@ -103,14 +104,18 @@ function MeaningCard({ english_word: word, children }) {
                     return (
                         <div key={key}>
                             {children}
-                            <div>
-                                <span>en:</span>
-                                {meaning.explanation_en}
-                            </div>
-                            <div>
-                                <span>mt:</span>
-                                {meaning.explanation_mt}
-                            </div>
+                            <br />
+                            <LabelText
+                                labelType="row"
+                                labelName="en"
+                                text={meaning.explanation_en}
+                            />
+                            <LabelText
+                                labelType="row"
+                                labelName="mt"
+                                text={meaning.explanation_mt}
+                            />
+                            <br />
                             {meaning.meaning_image && (
                                 <div
                                     dangerouslySetInnerHTML={{
