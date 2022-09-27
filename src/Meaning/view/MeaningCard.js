@@ -142,25 +142,39 @@ function MeaningCard({ english_word: word, children }) {
                                                     />
                                                 </div>
                                             )}
-                                            <div>
-                                                <span>en:</span>
-                                                {usecase.lang_english}
-                                            </div>
-                                            <div>
-                                                <span>mt:</span>
-                                                {usecase.lang_origin}
-                                            </div>
-
-                                            <span>
-                                                keyphrase: {usecase.key_phrase}
-                                            </span>
+                                            <LabelText
+                                                labelType="row"
+                                                labelName="en"
+                                                text={usecase.lang_english}
+                                            />
+                                            <LabelText
+                                                labelType="row"
+                                                labelName="mt"
+                                                text={usecase.lang_origin}
+                                            />
+                                            <br />
+                                            <LabelText
+                                                labelType="col"
+                                                labelName="keyphrase"
+                                                text={usecase.key_phrase}
+                                            />
                                         </div>
                                         <br />
                                     </div>
                                 );
                             })}
                             <br />
-                            {meaning.synonyms && <h4>synonyms</h4>}
+                            {meaning.synonyms.length > 0 && (
+                                <h4
+                                    style={{
+                                        textTransform: 'uppercase',
+                                        marginTop: '16px',
+                                        marginBottom: '8px',
+                                    }}
+                                >
+                                    synonyms
+                                </h4>
+                            )}
                             {meaning.synonyms?.map((item, key) => {
                                 return (
                                     <div key={key}>
@@ -171,10 +185,20 @@ function MeaningCard({ english_word: word, children }) {
                                 );
                             })}
                             <br />
+                            {meaning.meaningMemos && (
+                                <h4
+                                    style={{
+                                        textTransform: 'uppercase',
+                                        marginTop: '16px',
+                                        marginBottom: '8px',
+                                    }}
+                                >
+                                    memo
+                                </h4>
+                            )}
                             {meaning.meanigMemos?.map((item, key) => {
                                 return (
                                     <div key={key}>
-                                        <h4>memo</h4>
                                         <div key={key}>
                                             <span>{item.memo_content}</span>
                                         </div>
@@ -182,6 +206,17 @@ function MeaningCard({ english_word: word, children }) {
                                 );
                             })}
                             <br />
+                            {meaning.tags.length > 0 && (
+                                <h4
+                                    style={{
+                                        textTransform: 'uppercase',
+                                        marginTop: '16px',
+                                        marginBottom: '8px',
+                                    }}
+                                >
+                                    categories
+                                </h4>
+                            )}
                             {meaning.tags?.map((item, key) => {
                                 return (
                                     <div className="tag__container" key={key}>
