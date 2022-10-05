@@ -94,6 +94,11 @@ const MeaningCardBlock = styled.div`
         color: #363636;
     }
 `;
+const labelingStyles = {
+    textTransform: 'uppercase',
+    marginTop: '32px',
+    marginBottom: '8px',
+};
 
 function MeaningCard({ english_word: word, children }) {
     return (
@@ -125,10 +130,7 @@ function MeaningCard({ english_word: word, children }) {
                             )}
 
                             {meaning.usecases.length > 0 && (
-                                <h4>
-                                    <br />
-                                    use cases
-                                </h4>
+                                <h4 style={labelingStyles}>use cases</h4>
                             )}
                             {meaning.usecases?.map((usecase, key) => {
                                 return (
@@ -165,15 +167,7 @@ function MeaningCard({ english_word: word, children }) {
                             })}
                             <br />
                             {meaning.synonyms.length > 0 && (
-                                <h4
-                                    style={{
-                                        textTransform: 'uppercase',
-                                        marginTop: '16px',
-                                        marginBottom: '8px',
-                                    }}
-                                >
-                                    synonyms
-                                </h4>
+                                <h4 style={labelingStyles}>synonyms</h4>
                             )}
                             {meaning.synonyms?.map((item, key) => {
                                 return (
@@ -186,15 +180,7 @@ function MeaningCard({ english_word: word, children }) {
                             })}
                             <br />
                             {meaning.meaningMemos && (
-                                <h4
-                                    style={{
-                                        textTransform: 'uppercase',
-                                        marginTop: '16px',
-                                        marginBottom: '8px',
-                                    }}
-                                >
-                                    memo
-                                </h4>
+                                <h4 style={labelingStyles}>memo</h4>
                             )}
                             {meaning.meanigMemos?.map((item, key) => {
                                 return (

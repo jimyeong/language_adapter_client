@@ -11,6 +11,7 @@ const getLoginStatus = () => {
     return sessionStorage.getItem(LOGIN_SCHEME.IS_LOGIN);
 };
 const varifyResponse = (response) => {
+    if (!response) return false;
     if (response.status == 401) {
         return false;
     }

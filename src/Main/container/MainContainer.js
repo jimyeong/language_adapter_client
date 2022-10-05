@@ -76,7 +76,7 @@ const MainContainer = ({ children, ...rest }) => {
         setLoading(true);
         const errorCallback = (error) => {
             console.log(['error'], error);
-            setErrors(error);
+            setErrors(true);
             setLoading(false);
         };
         const result = await privatePostAxios(
@@ -87,15 +87,22 @@ const MainContainer = ({ children, ...rest }) => {
                 destination: { from: '/dashboard', to: '' },
             }
         );
-        if (varifyResponse(result)) {
-            setPageState({
-                ...pageState,
-                events: processEventData(result.data),
-            });
-            setLoading(false);
+        console.log('@@@@@result', result);
+        if (!result.data) {
+            return setErrors(true);
+        }
+        if (result.data) {
+            if (varifyResponse(result)) {
+                setPageState({
+                    ...pageState,
+                    events: processEventData(result.data),
+                });
+                setLoading(false);
+            }
         }
     };
     const processEventData = (list) => {
+        console.log('@@@liost', list);
         return list.map((item, index) => {
             const id = item.english_word_id;
             const title = item.english_word;
