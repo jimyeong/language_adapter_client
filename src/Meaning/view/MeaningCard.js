@@ -101,6 +101,26 @@ const labelingStyles = {
 };
 
 function MeaningCard({ english_word: word, children }) {
+    const showImageContent = (link) => {
+        const videoLinkChecker = (link) => {
+            const checker = /https:\/\/w*.*youtu.*be/gm;
+            const result = checker.test(link);
+            return result;
+        };
+        if (videoLinkChecker(link))
+            return (
+                <iframe
+                    width="100%"
+                    height="315"
+                    src={link}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                ></iframe>
+            );
+        return <img src={link} />;
+    };
     return (
         <MeaningCardBlock>
             <h3 className="expression__tit">{word.english_word}</h3>
@@ -138,10 +158,13 @@ function MeaningCard({ english_word: word, children }) {
                                         <div key={key}>
                                             {usecase.image_url !== '' && (
                                                 <div>
-                                                    <img
+                                                    {/* <img
                                                         src={usecase.image_url}
                                                         alt=""
-                                                    />
+                                                    /> */}
+                                                    {showImageContent(
+                                                        usecase.image_url
+                                                    )}
                                                 </div>
                                             )}
                                             <LabelText

@@ -172,6 +172,7 @@ const AddWordContainer = React.forwardRef(({ list, children, item }, ref) => {
     // }));
 
     useEffect(() => {
+        console.log(['itemID@@@'], item.id);
         list.current[parseInt(item.id)] = {
             ..._inputValues,
             usecases,
