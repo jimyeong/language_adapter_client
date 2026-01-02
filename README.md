@@ -37,11 +37,13 @@ Rather than memorizing words as text, the project focuses on understanding how w
   <tr>
     <td width="50%">
       <b>1. Associated Giphy GIFs</b><br/>
+      Relate your words with funny moving images
       <br/><br/>
       <img src="https://github.com/user-attachments/assets/8eb5b617-5434-41f3-bc59-d997c1272bdc" width="100%"/>
     </td>
     <td width="50%">
       <b>2. Synonyms and antonyms</b><br/>
+      Compare your new words for better sensing
       <br/><br/>
       <img src="https://github.com/user-attachments/assets/91e8f37d-373b-4e51-8ee9-9516db59d1bf" width="100%"/>
     </td>
