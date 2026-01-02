@@ -1,169 +1,147 @@
-## 어학공부를 도와주는 웹어플리케이션
+# Language Adaptor
 
-원어민과 대화하면서, 표현하고 싶은 게 있는데, 막히는 경우,  
-이 어플리케이션에 기록해두면, 반복적으로 복습할 수 있다.
-그렇게 조금씩 조금씩, 타언어로, 원하는 표현을 하는 방법을 익혀나갈 수 있도록 보조해주는 웹어플리케이션이다.
+**Language Adaptor** is an experimental English learning tool built around the idea that  
+**language is better learned and recalled through images, not definitions**.
 
-### TODO
+Rather than memorizing words as text, the project focuses on understanding how words *feel*, *look*, and *are used in real contexts*.
 
--   <del>HINT 및 Self Quiz 기능</del>
--   EDIT 기능
--   서버 업로드(환경변수추가)
--   <del>예문 말고 설명란 추가하기</del>
--   하루에 최대 4개까지만 작성할 수 있도록 제한을 걸자
--   로딩바를, 캐릭터 이미지로 하는 건 어떨까
--   <del>힌트 데이터 구조잘못됬으니까 수정해야 됨 , 힌트가 퀴즈 안에 포함되야 됨</del>
--   어떤 상황에서 쓸 수 있는지 추가해야 됨 + 누앙스, 다양한 상황에서, 문맥에 따라 다양한 뜻으로 변하는 단어의 경우는, 한국어로 매칭해서 외우는 게 오히려 독이 되는듯 -> 상황을 잘 서술 할 수 있도록, 상황을 매핑 한다는 느낌으로 갈것
--   필요한것 -> 상황, 특정상황 적절한 표현방법, 예문, 퀴즈 및 힌트, 문장 변형(가정,과거가정, 미래, 미래완료, 3,2,1인칭, 의문문) 종류
+---
 
-1. 복습이 누적되면서 너무 많다. filtering 기능을 달자
-    - 맞춘횟수가 5회가 넘어가면, 장기로 넣을 수 있다.
-    - 장기에서도 랜덤으로 단어가 나오는데, 횟수를 기록해 두고, 나온적 없는 데이터들 을 우선순위로 보내주어야 한다.
-    - <del>각 표현에 대한 메타데이터(그림, gif,나름의 정의, 상황묘사 등) 를 넣을 수 있는 인터페이스 또는 스킴이 있으면 좋겠다.</del>
-    - 검색? 필요한가 달력으로 확인가능한데
-2. 나 책읽은 거 표현도 정리를 해야됨
-    - 책 이미지를 리스트처럼 보여주자, 아이패드에 앨범 리스트 나오는 것처럼, 클릭하면 정리한 표현 쫙 나오도록
-3. <del>로그인 기능 달아야 됨</del>
+## 🎯 Purpose
 
-season2
+- Learn vocabulary through **visual association rather than textual definitions**
+- Treat words as experiences and contexts, not isolated strings
+- Support more natural language recall by anchoring expressions to images and usage
 
--   이걸 타입스크립트로 바꿀 수 있을까 -> 있음
--   노드JS-> GraphQL 로 바꾸고 싶다.. 마이그레이션 너무 힘듬, DB 도 MongoDB 같은 거 쓰는 게 더 편하지 않을까 -> 좀더 개발을 해보고, 바꿀 수 없는 상황에 직면할 때까지 개발을 하는 게 더 낫지 않을까?
+---
 
--   달별로 시험문제 뽑고 채점 프로세스 추가
--   말하는 버튼 추가할 것
-    또는 컨베이어 버튼(말풍선이 막오락가락 하면서 얘기함)
+## ✨ Key Features
 
-나머지는, 랜덤으로 돌림, 근데 맞은 횟수, 틀린횟수 기록, 등장횟수 기록,
-등장횟수가 적은 것을 우선으로 추리고
-모두 3번이상 나왔으면,
-그담부터는, 틀린 횟수로 우선순위를 준다.
+- **Giphy Integration**
+  - Displays GIFs related to searched words or expressions
+  - Helps learners grasp tone, emotion, and real-world usage visually
 
-너무 복잡한가??
+- **Word & Expression Storage**
+  Each saved entry can include:
+  - Example sentences
+  - Associated Giphy GIFs
+  - Synonyms and antonyms
+  - Stored together as a single learning unit
+  - Quiz mode
 
-```
-https://developers.google.com/identity/gsi/web/guides/client-library
+- **Learning Calendar**
+  - Days with saved entries are marked on a calendar
+  - Clicking a date shows all words and expressions studied on that day
+  - Enables reflection on learning history over time
+ <table>
+  <tr>
+    <td width="50%">
+      <b>1. Associated Giphy GIFs</b><br/>
+      <br/><br/>
+      <img src="https://github.com/user-attachments/assets/8eb5b617-5434-41f3-bc59-d997c1272bdc" width="100%"/>
+    </td>
+    <td width="50%">
+      <b>2. Synonyms and antonyms</b><br/>
+      <br/><br/>
+      <img src="https://github.com/user-attachments/assets/91e8f37d-373b-4e51-8ee9-9516db59d1bf" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <b>3. Stored together as a single learning unit</b><br/>
+      Update your learning journey in the calander so you can take them out whenever
+      <br/><br/>
+      <img src="https://github.com/user-attachments/assets/dda90909-d1c5-468b-85bb-d927c903bf3a" width="100%"/>
+    </td>
+    <td width="50%">
+      <b>4. Quiz Mode</b><br/>
+      Guess the answer with the given pictues
+      <br/><br/>
+      <img src="https://github.com/user-attachments/assets/2d3c5314-0503-4372-b7d9-3c692cb8262c" width="100%"/>
+    </td>
+  </tr>
+</table>
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 
-```
-
-vs코드 사용시, tab으로 jsx태그 생성 안될 때(emmet) 사용이 안될 때
-참조 https://code.visualstudio.com/docs/editor/emmet
-
-```
-// setting.json
-
-    "emmet.triggerExpansionOnTab": true, // tab키로, 태그를 가져온다.  ex) div -> <div></div>
 
 
-    // 다른 파일확장자에서도 사용 할 수 있도록 한다.(js)
-    "emmet.includeLanguages": {
-        "javascript": "javascriptreact",
-        "razor": "html",
-        "plaintext": "pug"
-    }
-```
 
-//
 
-snippet
+---
 
-```
+## 🧱 Initial Technical Design
 
-	"initReactComponentTamplete:":{
-		"prefix": "cfc",
-		"body": [
-			"import React from 'react'",
-			"import styled from `styled-components`;",
-			"\n",
-			"const ${TM_FILENAME_BASE}Block = styled.$1``;",
-			"\n",
-			"function ${TM_FILENAME_BASE}({children}){",
-			"\treturn (",
-			"\t\t<${TM_FILENAME_BASE}Block>$0</${TM_FILENAME_BASE}Block>",
-			"\t)",
-			"}",
-			"\n",
-			"export default ${TM_FILENAME_BASE};"
+- Frontend: Web-based UI
+- Backend: REST API
+- Database: **MySQL (RDBMS)**
 
-		]
-	}
-```
+Words, examples, images, and relationships were modeled using a relational database structure.
 
-```
+---
 
-// Actions must be plain objects. Use custom middleware for async actions
-// function을 사용할 수 없다. 미들웨어 안쓰면
-export const setExpressions = (expressions) => {
-    return (dispatch, getState) => {
-        dispatch({
-            type: 'expressions/set_expressions',
-            payload: expressions,
-        });
-    };
-};
+## ⛔ Why the Project Was Paused
 
-        const successCallback = (result) => {
-            dispatch(setExpressions(result.data));
-            // dispatch({
-            //     type: 'expressions/set_expressions',
-            //     payload: result.data,
-            // });
-            // setPageState({
-            //     ...pageState,
-            //     events: processEventData(result.data),
-            // });
-        };
+As development progressed, a fundamental mismatch became clear between  
+**the nature of language** and **the chosen data model**.
 
-```
+### 1. Language Is Graph-Shaped, Not Relational
 
-footer 하단고정
+Language does not behave like clean relational data:
 
-```
-https://angelplayer.tistory.com/185
+- Words rarely have fixed meanings
+- Meaning shifts depending on context, emotion, and situation
+- Synonyms, antonyms, images, and usage contexts form **many-to-many, evolving relationships**
 
-```
+This led to the realization that language is inherently closer to a **graph structure** than a relational schema.  
+Modeling these relationships in MySQL felt forced and increasingly restrictive.
 
-여기서 우아함을 추구하면 결과물을 낼 수 없음
-일단 하기로 한 범위까지는 완성해야함
+---
 
-사진을 먼저 주고, 그것을 묘사할 수 있게 끔 해줘야되
-그게 훨씬 중요함
+### 2. The Brain Stores Language as Images, Not Text
 
-결국엔 사진을 묘사하는 연습을 시켜주는 게 목적임
+Using English daily while living in the UK changed how I understood language recall:
 
-stomp her foot
-이렇게 덩어리가 아니라
+- When speaking or recalling expressions, the brain does not retrieve text first
+- It retrieves **scenes, images, and sensations**, then translates them into words
 
-stomp 가 어떤 뉘양스를 가지는 동사인지 아는 게 중요하다. 한국말 뜻은 가급적 적지 말것 의미를 제한한다.
-stomp up
-stomp down
-stomp over
-stomp off
-영어는 이런식으로 의미가 확장되면서 사용되는 특징 때문에, 한국말 뜻을 달면 공부가 제대로 안됨,
-think in english
-if that's hard use images
+In other words:
 
-31.08.22
-labeling 박스를 어떻게
-to create my own source that will reduce my time later, you should write down more, and manage the designs of components.
+> The brain does not store language as characters — it stores it as imagery.
 
-story book
-componet page 를 만들어야 겠다.
-I
+Although Language Adaptor aimed to support image-based learning conceptually,  
+its underlying data model still treated language as structured text.
 
-좋은 복습 방법이 떠올랐다.
-달별로 시험 보기 프로세스를 추가한다.
-채점을 한 후에 틀린 문제는,
-추가한다.
+---
 
-그리고 복습에 추가해서 나오게 하도록 한다.
+## 📚 Lessons Learned
 
-말하는 버튼 추가할 것
-또는 컨베이어 버튼(말풍선이 막오락가락 하면서 얘기함)
+- **Language data is inherently graph-shaped**  
+  Words do not exist in isolation. Meanings, contexts, images, and emotions form evolving many-to-many relationships. Modeling language with a relational database introduced unnecessary rigidity.
 
-meaning should be fixed in the way that it must be able to be added with multiple of it
+- **Database choice encodes assumptions about the problem**  
+  Choosing an RDBMS implicitly assumed language could be normalized into stable schemas. This project highlighted how deeply storage models shape product design.
 
-세션이 있는 상태에선 대시보드로 가지지 않음
+- **Image-first learning aligns better with human cognition**  
+  Language is recalled through scenes and sensations rather than definitions. Treating images as secondary artifacts misses a key cognitive layer.
+
+- **Correct abstractions matter more than feature completeness**  
+  Despite having multiple features, the core abstraction was misaligned. Adding more functionality would not have resolved the foundational issue.
+
+- **Stopping a project can be a design decision, not a failure**  
+  Pausing development was a deliberate choice to avoid reinforcing an incorrect mental model. Recognizing when to stop is part of responsible system design.
+
+---
+
+## 🔚 Conclusion
+
+Language Adaptor is best understood as a **design exploration** rather than a finished product.
+
+It clarified two critical insights:
+
+1. Language systems should be modeled as **graphs of relationships**
+2. Effective language learning tools should be **image-first, not text-first**
+
+Given these realizations, further development was paused to avoid extending a structure that no longer aligned with the problem being explored.
+
+The project remains as a record of this exploration and the lessons learned from it.
